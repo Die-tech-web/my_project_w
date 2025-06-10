@@ -1,3 +1,5 @@
+import { API_URL } from "../config.js";
+
 export function initialiserMessages(callback) {
   // Charger les messages existants immédiatement
   chargerMessagesExistants(callback);
@@ -40,7 +42,7 @@ export async function envoyerNouveauMessage(texte, destinataireId) {
   };
 
   try {
-    const response = await fetch("http://localhost:3000/messages", {
+    const response = await fetch(`${API_URL}/messages`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(message),

@@ -1,10 +1,11 @@
 import { createElement } from "./utils.js";
 import { showNotification } from "./components/notifications.js";
+import { API_URL } from "./config.js";
 
 // Fonction pour valider si un numéro existe déjà
 async function isPhoneNumberUnique(phone) {
   try {
-    const response = await fetch("http://localhost:3000/users");
+    const response = await fetch(`${API_URL}/users`);
     const users = await response.json();
     return !users.some((user) => user.phone === phone);
   } catch (error) {

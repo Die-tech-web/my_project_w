@@ -1,5 +1,6 @@
 import { createElement } from "./utils.js";
 import { validateForm } from "./utils/validation.js";
+import { API_URL } from "./config.js";
 
 export function createLoginForm() {
   const container = createElement("div", {
@@ -85,7 +86,7 @@ export function createLoginForm() {
       try {
         // Vérifier si l'utilisateur existe
         const response = await fetch(
-          `http://localhost:3000/users?phone=${formData.phone}`
+          `${API_URL}/users?phone=${formData.phone}`
         );
         const users = await response.json();
 

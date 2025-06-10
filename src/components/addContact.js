@@ -1,5 +1,6 @@
 import { createElement } from "../utils.js";
-import { validateContact } from "../validations.js"; // Ajout de l'import
+import { validateContact } from "../validations.js";
+import { API_URL } from "../config.js";
 
 export function createAddContactModal() {
   const overlay = createElement("div", {
@@ -70,11 +71,11 @@ export function createAddContactModal() {
       }
 
       try {
-        const response = await fetch("http://localhost:3000/users", {
+        const response = await fetch(`${API_URL}/users`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            name: validation.contact.name, 
+            name: validation.contact.name,
             phone: formData.phone,
             avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${formData.name}`,
             status: "online",
