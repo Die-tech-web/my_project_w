@@ -7,7 +7,6 @@ import { creerInterface } from "./interface.js";
 import { createLoginForm } from "./login.js";
 import { creerSectionDiffusion } from "./sections/diffusion.js";
 
-// Rendre createElement disponible globalement
 window.createElement = createElement;
 
 document.querySelector("#app").innerHTML = `
@@ -43,7 +42,6 @@ function init() {
   }
 
   const diffusionSection = creerSectionDiffusion();
-  // Ajouter la section où nécessaire dans votre layout
 }
 
 if (document.readyState === "loading") {

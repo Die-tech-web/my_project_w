@@ -2,7 +2,6 @@ import { createElement } from "../utils.js";
 import { validateContact } from "../validations.js"; // Ajout de l'import
 
 export function createAddContactModal() {
-  // Overlay modal
   const overlay = createElement("div", {
     class:
       "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50",
@@ -40,7 +39,6 @@ export function createAddContactModal() {
     }
   };
 
-  // Fonction pour nettoyer les messages d'erreur
   const clearErrors = () => {
     document.querySelectorAll("[id$='-error']").forEach((el) => el.remove());
   };
@@ -58,7 +56,6 @@ export function createAddContactModal() {
         phone: document.getElementById("contactPhone").value,
       };
 
-      // Utiliser validateContact au lieu de validateForm
       const validation = await validateContact(formData);
 
       if (!validation.isValid) {
@@ -77,7 +74,7 @@ export function createAddContactModal() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            name: validation.contact.name, // Utiliser le nom potentiellement modifié
+            name: validation.contact.name, 
             phone: formData.phone,
             avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${formData.name}`,
             status: "online",
@@ -95,7 +92,6 @@ export function createAddContactModal() {
     },
   });
 
-  // Champs du formulaire
   const fields = [
     {
       label: "Prénom",

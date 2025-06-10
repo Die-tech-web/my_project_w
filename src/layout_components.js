@@ -1,6 +1,7 @@
 import { createElement } from "./utils.js";
 import { createGroupModal } from "./components/createGroup.js";
 import { updateDiscussions } from "./sections/discussions.js";
+import { createUserProfileModal } from "./components/userProfile.js";
 
 export function creerSidebar() {
   const icones = [
@@ -13,7 +14,7 @@ export function creerSidebar() {
         document
           .querySelector(".section-diffusion")
           ?.classList.remove("hidden");
-        updateDiffusionGroups(); // Ajoutez cette ligne pour rafraîchir la liste
+        updateDiffusionGroups(); 
       },
     },
     {
@@ -25,20 +26,17 @@ export function creerSidebar() {
           id: "groupContainer",
         });
 
-        // Créer le popup de création de groupe
         const modal = createGroupModal();
 
         modal
           .querySelector("#groupForm")
           .addEventListener("submit", async (e) => {
             e.preventDefault();
-            // ...code existant de création de groupe...
             if (response.ok) {
-              // Mettre à jour la section discussions
               updateDiscussions();
               container.remove();
 
-              // Message de succès
+              
               const successMessage = createElement(
                 "div",
                 {
@@ -110,7 +108,11 @@ export function creerSidebar() {
     class: "fa-solid fa-gear text-lg",
   });
   const userIcon = createElement("i", {
-    class: "fa-solid fa-user text-lg",
+    class: "fa-solid fa-user text-lg cursor-pointer",
+    onclick: () => {
+      const profileModal = createUserProfileModal();
+      if (profileModal) document.body.appendChild(profileModal);
+    },
   });
 
   bottomIcons.appendChild(settingsIcon);
@@ -138,7 +140,6 @@ export function creerSidebar() {
   return container;
 }
 
-// Ajouter en bas du fichier
 window.addEventListener("groupCreated", () => {
   updateGroupsList();
 });

@@ -44,13 +44,12 @@ export function createGroupModal() {
 
   modal.innerHTML = content;
 
-  // Charger les contacts avec un style amélioré
   fetch("http://localhost:3000/users")
     .then((res) => res.json())
     .then((users) => {
       const membersList = modal.querySelector("#membersList");
       users
-        .filter((user) => user.id !== currentUser.id) // Exclure l'utilisateur courant
+        .filter((user) => user.id !== currentUser.id)
         .forEach((user) => {
           const label = createElement("label", {
             class:
@@ -69,7 +68,6 @@ export function createGroupModal() {
         });
     });
 
-  // Gérer la création du groupe
   modal.querySelector("#groupForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const name = modal.querySelector("#groupName").value;
@@ -94,7 +92,6 @@ export function createGroupModal() {
       });
 
       if (response.ok) {
-        // Message de succès
         const successMessage = createElement(
           "div",
           {
@@ -110,7 +107,6 @@ export function createGroupModal() {
 
         modal.remove();
 
-        // Déclencher la mise à jour
         updateDiscussions();
         updateDiffusionGroups();
         window.dispatchEvent(new CustomEvent("groupCreated"));

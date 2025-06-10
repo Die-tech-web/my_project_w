@@ -1,8 +1,6 @@
 import { createElement } from "../utils.js";
-import { createMessageBubble } from "./messageUI.js";
-import { messageQueue } from "./messageQueue.js";
-import { DraftsManager } from "./drafts.js";
 import { initialiserChat, envoyerMessageChat } from "./gestionChat.js";
+import { DraftsManager } from "./drafts.js"; 
 
 export function createChatView(participant) {
   const container = createElement("div", {
@@ -10,12 +8,10 @@ export function createChatView(participant) {
     id: `chat-${participant.id}`,
   });
 
-  // Header
+ 
   const header = createElement("div", {
     class: "flex items-center px-4 py-3 bg-[#95D2B3]",
   });
-
-  // Avatar
   const avatar = createElement(
     "div",
     {
@@ -24,48 +20,34 @@ export function createChatView(participant) {
     },
     participant.name.charAt(0).toUpperCase()
   );
-
-  // Contact info
-  const info = createElement("div", {
-    class: "flex flex-col",
-  });
-
-  const name = createElement(
-    "div",
-    {
-      class: "text-white font-medium",
-    },
-    participant.name
+  const info = createElement("div", { class: "flex flex-col" });
+  info.append(
+    createElement("div", { class: "text-white font-medium" }, participant.name),
+    createElement("div", { class: "text-white/80 text-sm" }, "en ligne")
   );
-
-  const status = createElement(
-    "div",
-    {
-      class: "text-white/80 text-sm",
-    },
-    "en ligne"
-  );
-
-  info.append(name, status);
   header.append(avatar, info);
 
-  // Messages container
+  
   const messagesContainer = createElement("div", {
     class: "flex-1 overflow-y-auto p-4",
+    id: `messages-${participant.id}`,
   });
-
   const messagesAffiches = initialiserChat(messagesContainer, participant.id);
 
-  // Message composer
+  const cleanup = () => {
+    if (pollingInterval) {
+      clearInterval(pollingInterval);
+    }
+  };
+
+  container.cleanup = cleanup;
+
   const composer = createElement("div", {
     class: "bg-white p-3 border-t border-gray-200",
   });
-
-  // Conteneur qui englobe la zone de texte et le bouton d'envoi
   const inputContainer = createElement("div", {
     class: "relative flex items-center bg-gray-50 rounded-lg",
   });
-
   const textarea = createElement("textarea", {
     class:
       "w-full p-3 pr-12 rounded-lg bg-transparent border-none focus:outline-none resize-none text-black placeholder-gray-500",
@@ -73,10 +55,19 @@ export function createChatView(participant) {
     rows: "1",
     onkeydown: (e) => {
       if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault(); // Empêche le retour à la ligne
-        sendButton.click(); // Déclenche le clic sur le bouton d'envoi
+        e.preventDefault();
+        sendButton.click();
       }
     },
+  });
+
+
+  const draft = DraftsManager.getDraft(participant.id);
+  if (draft && draft.text) textarea.value = draft.text;
+
+  
+  textarea.addEventListener("input", () => {
+    DraftsManager.saveDraft(participant.id, textarea.value);
   });
 
   const sendButton = createElement("button", {
@@ -92,13 +83,13 @@ export function createChatView(participant) {
           messagesAffiches
         );
         textarea.value = "";
+        DraftsManager.saveDraft(participant.id, ""); envoi
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
       }
     },
   });
-
   sendButton.innerHTML = '<i class="fas fa-paper-plane"></i>';
 
-  // Assembler les éléments
   inputContainer.appendChild(textarea);
   inputContainer.appendChild(sendButton);
   composer.appendChild(inputContainer);

@@ -1,22 +1,29 @@
 export function initialiserMessages(callback) {
-  // Charger les messages existants
+  // Charger les messages existants immédiatement
   chargerMessagesExistants(callback);
 
-  // Vérifier les nouveaux messages toutes les 2 secondes
-  setInterval(() => {
-    chargerMessagesExistants(callback);
-  }, 2000);
+  // Polling plus fréquent (1 seconde au lieu de 2)
+  const intervalId = setInterval(async () => {
+    await chargerMessagesExistants(callback);
+  }, 1000);
+
+  // Retourner l'ID de l'intervalle pour pouvoir l'arrêter si besoin
+  return intervalId;
 }
 
 async function chargerMessagesExistants(callback) {
   try {
     const response = await fetch("http://localhost:3000/messages");
     const messages = await response.json();
+
     // Trier les messages par date
-    messages.sort((a, b) => new Date(a.date) - new Date(b.date));
-    messages.forEach((message) => {
-      callback(message);
-    });
+    const sortedMessages = messages.sort(
+      (a, b) =>
+        new Date(a.date || a.timestamp) - new Date(b.date || b.timestamp)
+    );
+
+    // Retourner les messages triés pour le callback
+    sortedMessages.forEach(callback);
   } catch (error) {
     console.error("Erreur chargement messages:", error);
   }
@@ -29,7 +36,7 @@ export async function envoyerNouveauMessage(texte, destinataireId) {
     destinataireId,
     expediteurId: expediteur.id,
     date: new Date().toISOString(),
-    status: "sent", // Ajout du status
+    status: "sent", // Le statut initial est "sent"
   };
 
   try {
@@ -38,10 +45,30 @@ export async function envoyerNouveauMessage(texte, destinataireId) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(message),
     });
-    const messageEnvoye = await response.json();
-    return messageEnvoye;
+
+    // Mettre à jour le statut en "delivered" immédiatement après l'envoi
+    const savedMessage = await response.json();
+    await updateMessageStatus(savedMessage.id, "delivered");
+    return savedMessage;
   } catch (error) {
     console.error("Erreur envoi message:", error);
     return null;
+  }
+}
+
+// Nouvelle fonction pour mettre à jour le statut du message
+export async function updateMessageStatus(messageId, status) {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/messages/${messageId}`,
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      }
+    );
+    return await response.json();
+  } catch (error) {
+    console.error("Erreur mise à jour statut:", error);
   }
 }

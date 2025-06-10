@@ -13,16 +13,13 @@ async function isPhoneNumberUnique(phone) {
   }
 }
 
-// Fonction pour compter les occurrences d'un nom et retourner le prochain numéro
 async function getNextNameNumber(name) {
   try {
     const response = await fetch("http://localhost:3000/users");
     const users = await response.json();
 
-    // Normaliser le nom de base (enlever les numéros existants)
     const baseName = name.replace(/\s+\d+$/, "").toLowerCase();
 
-    // Récupérer tous les contacts avec le même nom de base
     const similarNames = users.filter((user) => {
       const userBaseName = user.name.replace(/\s+\d+$/, "").toLowerCase();
       return userBaseName === baseName;
@@ -32,7 +29,6 @@ async function getNextNameNumber(name) {
       return 0; // Premier contact avec ce nom
     }
 
-    // Trouver le plus grand numéro utilisé
     const numbers = similarNames.map((user) => {
       const match = user.name.match(/\s+(\d+)$/);
       return match ? parseInt(match[1]) : 1;
@@ -45,15 +41,12 @@ async function getNextNameNumber(name) {
   }
 }
 
-// Fonction principale de validation modifiée
 export async function validateContact(contact) {
   const errors = [];
 
-  // Validation du nom
   if (!contact.name) {
     errors.push("Le nom est obligatoire");
   } else {
-    // Générer les initiales
     contact.initials = contact.name
       .split(" ")
       .map((part) => part.charAt(0).toUpperCase())
@@ -66,7 +59,6 @@ export async function validateContact(contact) {
     }
   }
 
-  // Validation du numéro de téléphone
   if (!contact.phone) {
     errors.push("Le numéro de téléphone est obligatoire");
   } else if (!/^\d{10}$/.test(contact.phone)) {
@@ -78,22 +70,18 @@ export async function validateContact(contact) {
     }
   }
 
-  // Si la validation réussit
   if (errors.length === 0) {
-    // Sauvegarder le contact avec ses initiales
     const savedContact = await saveContact({
       ...contact,
       status: "online",
       lastSeen: new Date().toISOString(),
     });
 
-    // Afficher le message de bienvenue
     showNotification(`Bienvenue ${contact.name} ! 👋`, {
       type: "success",
       duration: 3000,
     });
 
-    // Mettre à jour l'interface
     window.dispatchEvent(
       new CustomEvent("userConnected", {
         detail: savedContact,
@@ -124,7 +112,6 @@ async function saveContact(contact) {
   }
 }
 
-// Fonction pour mettre à jour l'ordre des contacts
 async function updateContactOrder(newContact) {
   try {
     const updatedContact = {
@@ -142,7 +129,6 @@ async function updateContactOrder(newContact) {
       body: JSON.stringify(updatedContact),
     });
 
-    // Déclencher un événement pour mettre à jour l'interface
     window.dispatchEvent(
       new CustomEvent("contactOrderUpdated", {
         detail: updatedContact,

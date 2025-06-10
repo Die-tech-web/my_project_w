@@ -1,7 +1,6 @@
 import { createElement } from "../utils.js";
 
 export function createAvatar(contact) {
-  // Générer les initiales à partir du nom complet
   const initials = contact.name
     .split(" ")
     .map((part) => part.charAt(0).toUpperCase())
