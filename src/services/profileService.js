@@ -1,6 +1,8 @@
+import { API_ENDPOINTS } from "../config.js";
+
 export async function updateUserProfile(userId, updates) {
   try {
-    const response = await fetch(`http://localhost:3000/users/${userId}`, {
+    const response = await fetch(`${API_ENDPOINTS.USERS}/${userId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updates),

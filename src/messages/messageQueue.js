@@ -1,3 +1,5 @@
+import { API_ENDPOINTS } from "../config.js";
+
 let queue = [];
 let processing = false;
 
@@ -24,7 +26,7 @@ async function processQueue() {
 
     try {
       await sendMessage(message);
-      queue.shift(); // Supprimer le message envoyé
+      queue.shift(); 
     } catch (error) {
       console.error("Erreur lors de l'envoi du message:", error);
       message.status = "failed";
@@ -36,7 +38,7 @@ async function processQueue() {
 }
 
 async function sendMessage(message) {
-  const response = await fetch("http://localhost:3000/messages", {
+  const response = await fetch(API_ENDPOINTS.MESSAGES, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(message),

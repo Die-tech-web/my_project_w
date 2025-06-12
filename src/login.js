@@ -11,7 +11,6 @@ export function createLoginForm() {
     class: "bg-white p-8 rounded-3xl shadow-2xl w-[400px]",
   });
 
-  // Logo WhatsApp
   const logoContainer = createElement("div", {
     class:
       "w-16 h-16 bg-[#95D2B3] rounded-full mx-auto mb-4 flex items-center justify-center",
@@ -38,7 +37,6 @@ export function createLoginForm() {
     "Connectez-vous à votre compte"
   );
 
-  // Fonction pour afficher les messages d'erreur
   const showError = (fieldId, message) => {
     const existingError = document.getElementById(`${fieldId}-error`);
     if (existingError) {
@@ -56,7 +54,6 @@ export function createLoginForm() {
     }
   };
 
-  // Fonction pour nettoyer les messages d'erreur
   const clearErrors = () => {
     document.querySelectorAll("[id$='-error']").forEach((el) => el.remove());
   };

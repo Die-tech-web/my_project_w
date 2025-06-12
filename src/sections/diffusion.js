@@ -3,7 +3,7 @@ import { createElement } from "../utils.js";
 export function creerSectionDiffusion() {
   const container = createElement("div", {
     class: "h-full flex flex-col",
-    style: { backgroundColor: "[95D2B3 p-2 border-r border-gray-300" }, // Couleur de fond verte
+    style: { backgroundColor: "[95D2B3 p-2 border-r border-gray-300" }, 
   });
 
   const header = createElement("div", {

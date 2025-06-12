@@ -36,7 +36,7 @@ export function creerInterface() {
   const mainContent = createElement("div", {
     id: "main-content", // Ajout de l'ID manquant
     class: "flex-1",
-    style: { backgroundColor: "#95D2B3" },
+    style: { backgroundColor: "#BEE4D0" },
   });
   whiteContainer.appendChild(mainContent);
 

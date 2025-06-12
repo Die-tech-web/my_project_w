@@ -11,7 +11,6 @@ export function createMessageComposer({ onSend, onDraftSave }) {
     placeholder: "Écrivez votre message...",
   });
 
-  // Auto-expand textarea
   textarea.addEventListener("input", () => {
     textarea.style.height = "auto";
     textarea.style.height = textarea.scrollHeight + "px";
@@ -21,19 +20,16 @@ export function createMessageComposer({ onSend, onDraftSave }) {
     class: "flex items-center gap-3 mt-2",
   });
 
-  // Emoji button
   const emojiBtn = createElement("button", {
     class: "text-gray-500 hover:text-[#95D2B3]",
   });
   emojiBtn.innerHTML = '<i class="far fa-smile text-xl"></i>';
 
-  // Attachment button
   const attachBtn = createElement("button", {
     class: "text-gray-500 hover:text-[#95D2B3]",
   });
   attachBtn.innerHTML = '<i class="fas fa-paperclip text-xl"></i>';
 
-  // Send button
   const sendBtn = createElement("button", {
     class:
       "ml-auto bg-[#95D2B3] text-white px-4 py-2 rounded-full hover:bg-[#7BC0A1]",
@@ -48,7 +44,6 @@ export function createMessageComposer({ onSend, onDraftSave }) {
   });
   sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
 
-  // Auto-save draft
   let draftTimeout;
   textarea.addEventListener("input", () => {
     clearTimeout(draftTimeout);

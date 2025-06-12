@@ -8,3 +8,9 @@ git commit -m "first commit"
 git branch -M main
 git remote add origin https://github.com/Die-tech-web/my_project_w.git
 git push -u origin main
+
+ Un seul tableau messages
+
+✅ Chaque message doit contenir sender, receiver, content, timestamp
+
+✅ Les messages sont dynamiques si tu fais un filtre JS correct

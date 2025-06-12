@@ -54,7 +54,6 @@ export function creerSidebar() {
         container.appendChild(modal);
         document.body.appendChild(container);
 
-        // Fermer quand on clique en dehors
         container.addEventListener("click", (e) => {
           if (e.target === container) {
             container.remove();
@@ -66,7 +65,7 @@ export function creerSidebar() {
 
   const container = createElement("div", {
     class: "flex flex-col justify-between text-white h-full w-16",
-    style: { backgroundColor: "#95D2B3" }, // Nouvelle couleur
+    style: { backgroundColor: "#BEE4D0" },
   });
 
   const topIcons = createElement("div", {

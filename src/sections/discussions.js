@@ -1,20 +1,22 @@
 import { createElement } from "../utils.js";
 import { createAddContactModal } from "../components/addContact.js";
+import { createStatusModal } from "../components/createStatus.js";
+import { viewUserStatus } from "../components/statusViewer.js";
+import { viewMyStatus } from "../components/myStatusViewer.js";
 import { createChatView } from "../messages/chatView.js";
+import { listUpdateService } from "../services/listUpdateService.js";
+
+let discussionsContainer = null;
 
 export function creerSectionDiscussions() {
-  // Conteneur principal des discussions
   const container = createElement("div", {
-    class:
-      "flex flex-col h-full w-full bg-[#95D2B3 p-2 border-r border-gray-300", // Ajout de bordure droite
+    class: "flex flex-col h-full w-full bg-[#44a271] p-2 border-r border-gray-300",
   });
 
-  // En-tête de la section
   const header = createElement("div", {
-    class: "flex items-center justify-between p-3 bg-[#95D2B3] rounded-lg mb-3",
+    class: "flex items-center justify-between p-3 bg-[#44a271] rounded-lg mb-3",
   });
 
-  // Partie gauche avec le titre "Discussions"
   const headerLeft = createElement("div", {
     class: "flex items-center",
   });
@@ -27,22 +29,19 @@ export function creerSectionDiscussions() {
     "Discussions"
   );
 
-  // Partie droite avec les icônes
   const headerRight = createElement("div", {
     class: "flex items-center space-x-3",
   });
 
-  // Icônes d'action
   const icons = [
     { icon: "fa-regular fa-comment", action: () => {} },
-    { icon: "fa-solid fa-archive", action: () => {} }, // Icône d'archivage
-    { icon: "fa-solid fa-ellipsis-vertical", action: () => {} }, // Menu 3 points
+    { icon: "fa-solid fa-archive", action: () => {} },
+    { icon: "fa-solid fa-ellipsis-vertical", action: () => {} },
   ];
 
   icons.forEach(({ icon, action }) => {
     const iconButton = createElement("button", {
-      class:
-        "text-white hover:bg-white/20 p-2 rounded-full transition-colors duration-200",
+      class: "text-white hover:bg-white/20 p-2 rounded-full transition-colors duration-200",
       onclick: action,
     });
 
@@ -54,10 +53,29 @@ export function creerSectionDiscussions() {
     headerRight.appendChild(iconButton);
   });
 
-  // Ajouter le bouton d'ajout de contact dans headerRight
+  // Bouton statut
+  const statusButton = createElement("button", {
+    class: "text-white hover:bg-white/20 p-2 rounded-full transition-colors duration-200",
+    title: "Ajouter un statut",
+    onclick: () => {
+      const statusModal = createStatusModal();
+      if (statusModal) {
+        document.body.appendChild(statusModal);
+      }
+    },
+  });
+
+  const statusIcon = createElement("i", {
+    class: "fa-solid fa-circle-plus text-xl",
+  });
+
+  statusButton.appendChild(statusIcon);
+  headerRight.appendChild(statusButton);
+
+  // Bouton ajouter contact
   const addContactButton = createElement("button", {
-    class:
-      "text-white hover:bg-white/20 p-2 rounded-full transition-colors duration-200",
+    class: "text-white hover:bg-white/20 p-2 rounded-full transition-colors duration-200",
+    title: "Ajouter un contact",
     onclick: () => {
       document.body.appendChild(createAddContactModal());
     },
@@ -71,170 +89,253 @@ export function creerSectionDiscussions() {
   headerRight.appendChild(addContactButton);
 
   headerLeft.appendChild(titre);
-  header.appendChild(headerLeft);
-  header.appendChild(headerRight);
+  header.append(headerLeft, headerRight);
 
   // Barre de recherche
-  const searchBar = createElement("div", {
+  const searchContainer = createElement("div", {
     class: "px-3 py-2",
   });
 
   const searchInput = createElement("input", {
     type: "text",
-    placeholder: "Rechercher une discussion...",
-    class:
-      "w-full bg-white text-gray-800 placeholder-gray-500 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#95D2B3] border border-gray-300", // Fond blanc avec bordure
+    placeholder: "Rechercher ou commencer une nouvelle discussion",
+    class: "w-full bg-white text-gray-800 placeholder-gray-500 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#0A6847] border border-gray-300",
   });
 
-  // Liste des discussions
-  const chatList = createElement("div", {
-    class: "flex-1 overflow-y-auto",
+  searchContainer.appendChild(searchInput);
+
+  // Section statuts
+  const statusSection = createElement("div", {
+    class: "px-3 py-2",
+    id: "status-section",
   });
 
-  // Écouter les mises à jour de l'ordre des contacts
-  window.addEventListener("contactOrderUpdated", () => {
-    loadContacts();
+  const statusTitle = createElement("h3", {
+    class: "text-white text-sm font-medium mb-2",
+  }, "Statuts");
+
+  const statusList = createElement("div", {
+    class: "flex gap-3 overflow-x-auto pb-2",
+    id: "status-list",
   });
 
-  async function loadContacts() {
+  const myStatusContainer = createElement("div", {
+    class: "flex-shrink-0 cursor-pointer",
+    onclick: () => viewMyStatus(),
+  });
+
+  const currentUser = JSON.parse(localStorage.getItem("whatsappUser"));
+  const userInitial = currentUser ? 
+    (currentUser.name || `${currentUser.firstName} ${currentUser.lastName}`).charAt(0).toUpperCase() : 
+    "U";
+
+  myStatusContainer.innerHTML = `
+    <div class="flex flex-col items-center">
+      <div class="relative">
+        <div class="w-12 h-12 bg-[#0A6847] rounded-full flex items-center justify-center text-white font-medium border-2 border-white">
+          ${userInitial}
+        </div>
+        <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-[#95D2B3] rounded-full flex items-center justify-center border-2 border-white">
+          <i class="fas fa-plus text-xs text-white"></i>
+        </div>
+      </div>
+      <span class="text-white text-xs mt-1">Mon statut</span>
+    </div>
+  `;
+
+  statusList.appendChild(myStatusContainer);
+  statusSection.append(statusTitle, statusList);
+
+  // Liste des discussions (contacts + groupes)
+  const discussionsList = createElement("div", {
+    class: "flex-1 overflow-y-auto px-3 space-y-2",
+    id: "discussions-list",
+  });
+
+  discussionsContainer = discussionsList;
+
+  // Fonction pour charger contacts et groupes
+  async function loadDiscussions() {
     try {
       const [contactsResponse, groupsResponse] = await Promise.all([
-        fetch("http://localhost:3000/users"),
-        fetch("http://localhost:3000/groups"),
+        fetch("https://base-donnee-js.onrender.com/users"),
+        fetch("https://base-donnee-js.onrender.com/groups"),
       ]);
 
       const contacts = await contactsResponse.json();
       const groups = await groupsResponse.json();
 
-      chatList.innerHTML = "";
+      discussionsList.innerHTML = "";
 
       // Trier les contacts par ordre décroissant de lastSeen
       const sortedContacts = contacts.sort((a, b) => {
-        return new Date(b.lastSeen) - new Date(a.lastSeen);
+        return new Date(b.lastSeen || 0) - new Date(a.lastSeen || 0);
       });
 
       // Afficher les contacts
       sortedContacts.forEach((contact) => {
-        const [firstName = "", lastName = ""] = contact.name.split(" ");
-        const initials = `${firstName[0] || ""}${
-          lastName[0] || ""
-        }`.toUpperCase();
-
-        const chatItem = createElement("div", {
-          class:
-            "flex items-center p-3 rounded-lg cursor-pointer mb-1 hover:bg-gray-100",
-          onclick: () => {
-            const mainContent = document.querySelector("#main-content");
-            if (mainContent) {
-              mainContent.innerHTML = "";
-              const chatView = createChatView({
-                id: contact.id,
-                name: contact.name,
-                type: "contact",
-                phone: contact.phone,
-              });
-              mainContent.appendChild(chatView);
-            }
-          },
+        const discussionElement = createElement("div", {
+          class: "flex items-center p-3 hover:bg-[#90D1CA] rounded-lg cursor-pointer transition-colors duration-200",
+          onclick: () => handleContactClick(contact),
         });
 
-        chatItem.innerHTML = `
-          <div class="w-12 h-12 bg-[#95D2B3] rounded-full flex items-center justify-center text-white font-medium text-lg">
-            ${initials}
-          </div>
-          <div class="ml-4 flex flex-col">
-            <div class="text-gray-800 font-medium">${contact.name}</div>
-            <div class="text-gray-500 text-sm">${contact.phone}</div>
-          </div>
+        const avatar = createElement(
+          "div",
+          {
+            class: "w-12 h-12 bg-[#90D1CA] rounded-full flex items-center justify-center text-white font-medium mr-3",
+          },
+          contact.name.charAt(0).toUpperCase()
+        );
+
+        const info = createElement("div", { class: "flex-1" });
+        info.innerHTML = `
+          <h3 class="font-medium text-white">${contact.name}</h3>
+          <p class="text-sm text-white/80">${contact.phone}</p>
         `;
 
-        chatList.appendChild(chatItem); // Utiliser appendChild au lieu de insertBefore
+        const time = createElement(
+          "div",
+          { class: "text-xs text-white/60" },
+          "12:30"
+        );
+
+        discussionElement.append(avatar, info, time);
+        discussionsList.appendChild(discussionElement);
       });
 
       // Afficher les groupes après les contacts
       groups.forEach((group) => {
-        const chatItem = createElement("div", {
-          class:
-            "flex items-center p-3 rounded-lg cursor-pointer mb-1 hover:bg-gray-100",
-          onclick: () => {
-            const mainContent = document.querySelector("#main-content");
-            if (mainContent) {
-              mainContent.innerHTML = "";
-              const chatView = createChatView({
-                id: group.id,
-                name: group.name,
-                type: "group",
-                members: group.members,
-              });
-              mainContent.appendChild(chatView);
-            }
-          },
+        const discussionElement = createElement("div", {
+          class: "flex items-center p-3 hover:bg-[#90D1CA] rounded-lg cursor-pointer transition-colors duration-200",
+          onclick: () => handleGroupClick(group),
         });
 
-        const firstLetter = group.name.charAt(0).toUpperCase();
+        const avatar = createElement(
+          "div",
+          {
+            class: "w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white font-medium mr-3",
+          },
+          group.name.charAt(0).toUpperCase()
+        );
 
-        chatItem.innerHTML = `
-          <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white font-medium text-lg">
-            ${firstLetter}
-          </div>
-          <div class="ml-4 flex flex-col">
-            <div class="text-gray-800 font-medium">${group.name}</div>
-            <div class="text-gray-500 text-sm">${group.members.length} participants • Groupe</div>
-          </div>
+        const info = createElement("div", { class: "flex-1" });
+        info.innerHTML = `
+          <h3 class="font-medium text-white">${group.name}</h3>
+          <p class="text-sm text-white/80">${group.members?.length || 0} participants • Groupe</p>
         `;
 
-        chatList.appendChild(chatItem); // Utiliser appendChild au lieu de insertBefore
+        const time = createElement(
+          "div",
+          { class: "text-xs text-white/60" },
+          "12:30"
+        );
+
+        discussionElement.append(avatar, info, time);
+        discussionsList.appendChild(discussionElement);
       });
+
     } catch (error) {
-      console.error("Erreur:", error);
+      console.error("Erreur chargement discussions:", error);
     }
   }
 
-  loadContacts();
+  function handleContactClick(contact) {
+    const mainContent = document.querySelector("#main-content");
+    if (mainContent) {
+      mainContent.innerHTML = "";
+      const chatView = createChatView(contact);
+      mainContent.appendChild(chatView);
+    }
+  }
 
-  window.addEventListener("contactAdded", loadContacts);
+  function handleGroupClick(group) {
+    const mainContent = document.querySelector("#main-content");
+    if (mainContent) {
+      mainContent.innerHTML = "";
+      const chatView = createChatView({
+        id: group.id,
+        name: group.name,
+        type: "group",
+        members: group.members,
+      });
+      mainContent.appendChild(chatView);
+    }
+  }
 
-  searchBar.appendChild(searchInput);
-  container.appendChild(header);
-  container.appendChild(searchBar);
-  container.appendChild(chatList);
+  // Fonction pour charger les statuts
+  async function loadStatus() {
+    try {
+      const response = await fetch("https://base-donnee-js.onrender.com/status");
+      const allStatus = await response.json();
+      
+      const activeStatus = allStatus.filter(status => {
+        const expiresAt = new Date(status.expiresAt);
+        return expiresAt > new Date();
+      });
 
+      const statusByUser = {};
+      activeStatus.forEach(status => {
+        if (!statusByUser[status.userId]) {
+          statusByUser[status.userId] = [];
+        }
+        statusByUser[status.userId].push(status);
+      });
+
+      const existingStatus = statusList.querySelectorAll('.user-status');
+      existingStatus.forEach(element => element.remove());
+
+      Object.entries(statusByUser).forEach(([userId, userStatus]) => {
+        if (parseInt(userId) !== currentUser?.id) {
+          const latestStatus = userStatus[0]; 
+          const hasUnviewed = userStatus.some(s => !s.views?.includes(currentUser?.id));
+          
+          const statusElement = createElement("div", {
+            class: "flex-shrink-0 cursor-pointer user-status",
+            onclick: () => viewUserStatus(parseInt(userId), latestStatus.userName),
+          });
+
+          statusElement.innerHTML = `
+            <div class="flex flex-col items-center">
+              <div class="w-12 h-12 bg-[#0A6847] rounded-full flex items-center justify-center text-white font-medium border-2 ${
+                hasUnviewed ? 'border-[#25D366]' : 'border-gray-400'
+              }">
+                ${latestStatus.userName.charAt(0).toUpperCase()}
+              </div>
+              <span class="text-white text-xs mt-1 max-w-16 truncate">${latestStatus.userName}</span>
+            </div>
+          `;
+
+          statusList.appendChild(statusElement);
+        }
+      });
+
+    } catch (error) {
+      console.error("Erreur chargement statuts:", error);
+    }
+  }
+
+  // S'abonner aux mises à jour des contacts
+  listUpdateService.subscribe('contacts', () => {
+    loadDiscussions();
+  });
+
+  // Charger les données initiales
+  loadDiscussions();
+  loadStatus();
+
+  // Écouter les événements
+  window.addEventListener("contactAdded", loadDiscussions);
+  window.addEventListener("groupCreated", loadDiscussions);
+  window.addEventListener("statusUpdated", loadStatus);
+
+  container.append(header, searchContainer, statusSection, discussionsList);
   return container;
 }
 
 export function updateDiscussions() {
-  const chatList = document.querySelector(
-    ".section-discussions > div > div:last-child"
-  );
-  if (!chatList) return;
-
-  fetch("http://localhost:3000/groups")
-    .then((res) => res.json())
-    .then((groups) => {
-      chatList.innerHTML = "";
-
-      groups.forEach((group) => {
-        const chatItem = createElement("div", {
-          class: "flex items-center p-3 hover:bg-gray-100 cursor-pointer",
-        });
-
-        const firstLetter = group.name.charAt(0).toUpperCase();
-
-        chatItem.innerHTML = `
-          <div class="w-12 h-12 bg-[#95D2B3] rounded-full flex items-center justify-center text-white font-medium">
-            ${firstLetter}
-          </div>
-          <div class="ml-4 flex flex-col">
-            <div class="font-medium text-gray-900">${group.name}</div>
-            <div class="text-sm text-gray-500">
-              ${group.members.length} participants
-            </div>
-          </div>
-        `;
-
-        chatList.appendChild(chatItem);
-      });
-    });
+  const discussionsContainer = document.querySelector('.section-discussions');
+  if (discussionsContainer) {
+    const event = new CustomEvent('refreshDiscussions');
+    discussionsContainer.dispatchEvent(event);
+  }
 }
-
-window.addEventListener("groupCreated", updateDiscussions);

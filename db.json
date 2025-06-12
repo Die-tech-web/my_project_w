@@ -9,227 +9,116 @@
       "lastSeen": "2025-06-06T10:30:00"
     },
     {
-      "id": "2",
-      "name": "bibina niang",
-      "phone": "+771234567",
-      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane",
-      "status": "offline",
-      "lastSeen": "2025-06-06T09:15:00"
-    },
-    {
-      "id": "dcf0",
-      "name": "maman die",
-      "phone": "234567890987",
-      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=maman",
-      "status": "online",
-      "lastSeen": "2025-06-08T00:10:45.133Z"
-    },
-    {
-      "id": "a126",
-      "name": "mami dieme",
-      "phone": "1345678909",
-      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=mami",
-      "status": "online",
-      "lastSeen": "2025-06-08T01:27:18.815Z"
-    },
-    {
-      "id": "0f97",
-      "name": "amy diop",
-      "phone": "1234567876",
-      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=amy",
-      "status": "online",
-      "lastSeen": "2025-06-08T01:55:48.865Z"
-    },
-    {
-      "id": "7174",
-      "name": "baye ili 2",
-      "phone": "1345678911",
-      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=baye ili 2",
-      "status": "online",
-      "lastSeen": "2025-06-08T02:49:49.711Z"
-    },
-    {
-      "id": "744b",
-      "name": "chalima hane",
-      "phone": "776223456",
-      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=chalima",
-      "status": "online",
-      "lastSeen": "2025-06-08T02:58:11.488Z"
-    },
-    {
-      "id": "51e8",
+      "id": "fb34",
       "name": "Maman Niang",
       "phone": "778801947",
       "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Maman",
       "status": "online",
-      "lastSeen": "2025-06-08T17:42:36.607Z"
+      "lastSeen": "2025-06-11T20:00:05.337Z"
     },
     {
-      "id": "6c69",
-      "name": "diarra niang",
-      "phone": "6543234567",
-      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=diarra niang",
-      "status": "online",
-      "lastSeen": "2025-06-08T19:23:02.577Z"
-    },
-    {
-      "id": "15d3",
-      "name": "aida niang",
-      "phone": "7766655661",
-      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=aida niang",
-      "status": "online",
-      "lastSeen": "2025-06-08T20:31:14.644Z"
-    },
-    {
-      "id": "cd47",
-      "name": "Thiaba Gueye",
-      "phone": "7788019070",
-      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Thiaba Gueye",
-      "status": "online",
-      "lastSeen": "2025-06-08T20:33:46.141Z"
-    },
-    {
-      "id": "7ea4",
-      "name": "aaaaaaaaaaa m",
-      "phone": "7788019000",
-      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=aaaaaaaaaaa m",
-      "status": "online",
-      "lastSeen": "2025-06-08T20:34:22.450Z"
-    },
-    {
-      "id": "7bb0",
-      "name": "ta ndeye  Sy",
-      "phone": "7788019991",
-      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=ta ndeye  Sy",
-      "status": "online",
-      "lastSeen": "2025-06-08T20:39:01.922Z"
-    },
-    {
-      "id": "7480",
-      "name": "hyse aicha",
-      "phone": "1345678880",
-      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=hyse aicha",
-      "status": "online",
-      "lastSeen": "2025-06-08T21:19:08.596Z"
-    },
-    {
-      "id": "1771",
-      "name": "MANSOUR NIANG",
-      "phone": "778409832",
-      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=MANSOUR",
-      "status": "online",
-      "lastSeen": "2025-06-08T22:13:14.217Z"
-    },
-    {
-      "id": "6da7",
+      "id": "3cbe",
       "name": "Maman Niang 2",
       "phone": "7788019470",
-      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Maman Niang 2",
-      "status": "online",
-      "lastSeen": "2025-06-09T11:30:59.780Z"
-    },
-    {
-      "id": "a855",
-      "name": "diatou Niang",
-      "phone": "0778801947",
-      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=diatou Niang",
-      "status": "online",
-      "lastSeen": "2025-06-09T11:33:51.395Z"
-    },
-    {
-      "id": "8fcd",
-      "name": "Ma astou Niang",
-      "phone": "7788019490",
-      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Ma astou Niang",
-      "status": "online",
-      "lastSeen": "2025-06-09T11:36:04.878Z"
-    },
-    {
-      "id": "0cba",
-      "name": "Awa Niang",
-      "phone": "7788019001",
-      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Awa Niang",
-      "status": "online",
-      "lastSeen": "2025-06-09T11:39:12.728Z"
-    },
-    {
-      "id": "a798",
-      "name": "mimi ba",
-      "phone": "1124425525",
-      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=mimi ba",
-      "status": "online",
-      "lastSeen": "2025-06-09T11:44:42.343Z"
-    },
-    {
-      "id": "84e3",
-      "name": "Maman Die Niang",
-      "phone": "7788019476",
-      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Maman Die Niang",
-      "status": "online",
-      "lastSeen": "2025-06-09T11:47:02.808Z"
-    },
-    {
-      "id": "2bf5",
-      "name": "Ma Niang",
-      "phone": "7788019423",
-      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Ma",
-      "status": "online",
-      "lastSeen": "2025-06-09T15:45:04.107Z"
-    },
-    {
-      "id": "da32",
-      "name": "bibina niang",
-      "phone": "771111111",
-      "status": "online",
-      "lastSeen": "2025-06-10T11:07:14.208Z"
-    },
-    {
-      "id": "d000",
-      "name": "kalidou guisse",
-      "phone": "1234567890",
-      "initials": "KG",
-      "status": "online",
-      "lastSeen": "2025-06-10T11:32:30.759Z"
-    },
-    {
-      "id": "5c4a",
-      "name": "kalidou guisse",
-      "phone": "1234567890",
-      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=kalidou guisse",
-      "status": "online",
-      "lastSeen": "2025-06-10T11:32:30.797Z"
-    },
-    {
-      "id": "ba73",
-      "name": "Maman Niang 3",
-      "phone": "7788019473",
       "initials": "MN",
       "status": "online",
-      "lastSeen": "2025-06-10T11:45:34.207Z"
+      "lastSeen": "2025-06-11T20:00:25.308Z"
     },
     {
-      "id": "a7db",
-      "name": "Maman Niang 3",
-      "phone": "7788019473",
-      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Maman Niang 3",
-      "status": "online",
-      "lastSeen": "2025-06-10T11:45:34.256Z"
-    },
-    {
-      "id": "08a0",
-      "name": "bibina niang 2",
-      "phone": "7712345676",
+      "id": "df2b",
+      "name": "bibina niang",
+      "phone": "7777777770",
       "initials": "BN",
       "status": "online",
-      "lastSeen": "2025-06-10T11:46:13.349Z"
+      "lastSeen": "2025-06-11T23:52:14.212Z"
     },
     {
-      "id": "ac4f",
-      "name": "bibina niang 2",
-      "phone": "7712345676",
-      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=bibina niang 2",
+      "id": "d9ad",
+      "name": "astou  wade",
+      "phone": "6677788888",
+      "initials": "AW",
       "status": "online",
-      "lastSeen": "2025-06-10T11:46:13.388Z"
+      "lastSeen": "2025-06-11T23:52:50.024Z"
+    },
+    {
+      "id": "446d",
+      "name": "amy diop",
+      "phone": "1234567895",
+      "initials": "AD",
+      "status": "online",
+      "lastSeen": "2025-06-11T23:58:07.573Z"
+    },
+    {
+      "id": "3e7c",
+      "name": "amy  s",
+      "phone": "5555555555",
+      "initials": "AS",
+      "status": "online",
+      "lastSeen": "2025-06-12T00:02:42.386Z"
+    },
+    {
+      "id": "039e",
+      "name": "b b",
+      "phone": "7788011112",
+      "initials": "BB",
+      "status": "online",
+      "lastSeen": "2025-06-12T00:06:46.115Z"
+    },
+    {
+      "id": "8dde",
+      "name": "oj j",
+      "phone": "7788122220",
+      "initials": "OJ",
+      "status": "online",
+      "lastSeen": "2025-06-12T00:08:39.562Z"
+    },
+    {
+      "id": "9751",
+      "name": "Maman Niang 3",
+      "phone": "7788019470",
+      "initials": "MN",
+      "status": "online",
+      "lastSeen": "2025-06-12T00:12:18.605Z"
+    },
+    {
+      "id": "a1e6",
+      "name": "bbb nb",
+      "phone": "7788019477",
+      "initials": "BN",
+      "status": "online",
+      "lastSeen": "2025-06-12T00:20:30.362Z"
+    },
+    {
+      "id": "aa87",
+      "name": "assane  wade",
+      "phone": "1999999998",
+      "initials": "AW",
+      "status": "online",
+      "lastSeen": "2025-06-12T00:31:41.102Z"
+    },
+    {
+      "id": "eced",
+      "name": "tanfy  sy",
+      "phone": "5555555555",
+      "initials": "TS",
+      "status": "online",
+      "lastSeen": "2025-06-12T00:35:43.773Z"
+    },
+    {
+      "id": "5631",
+      "name": "tandy fall",
+      "phone": "2222222222",
+      "initials": "TF",
+      "status": "online",
+      "lastSeen": "2025-06-12T00:44:47.519Z"
+    },
+    {
+      "id": "265f",
+      "name": "moustapha v",
+      "phone": "1234567878",
+      "initials": "MV",
+      "status": "online",
+      "lastSeen": "2025-06-12T07:38:23.000Z"
     }
   ],
   "conversations": [
@@ -245,94 +134,6 @@
     }
   ],
   "messages": [
-    {
-      "id": "a807",
-      "texte": "hello",
-      "destinataireId": "2bf5",
-      "expediteurId": "51e8",
-      "date": "2025-06-10T09:40:39.625Z",
-      "status": "sent"
-    },
-    {
-      "id": "adbc",
-      "texte": "giga test",
-      "destinataireId": "2bf5",
-      "expediteurId": "51e8",
-      "date": "2025-06-10T09:46:53.139Z",
-      "status": "sent"
-    },
-    {
-      "id": "4a3e",
-      "texte": "mashallah",
-      "destinataireId": "2bf5",
-      "expediteurId": "a798",
-      "date": "2025-06-10T09:47:23.396Z",
-      "status": "sent"
-    },
-    {
-      "id": "fa74",
-      "texte": "cv",
-      "destinataireId": "2bf5",
-      "expediteurId": "51e8",
-      "date": "2025-06-10T09:48:31.342Z",
-      "status": "sent"
-    },
-    {
-      "id": "ff61",
-      "texte": "bbb",
-      "destinataireId": "2bf5",
-      "expediteurId": "a798",
-      "date": "2025-06-10T09:48:42.454Z",
-      "status": "sent"
-    },
-    {
-      "id": "98d0",
-      "texte": "hello ma niang",
-      "destinataireId": "2bf5",
-      "expediteurId": "2bf5",
-      "date": "2025-06-10T09:59:26.160Z",
-      "status": "sent"
-    },
-    {
-      "id": "fb80",
-      "texte": "ssssss",
-      "destinataireId": "2bf5",
-      "expediteurId": "51e8",
-      "date": "2025-06-10T10:12:37.727Z",
-      "status": "sent"
-    },
-    {
-      "id": "704f",
-      "texte": "maman",
-      "destinataireId": "51e8",
-      "expediteurId": "51e8",
-      "date": "2025-06-10T10:30:29.812Z",
-      "status": "sent"
-    },
-    {
-      "id": "b772",
-      "texte": "comment va tus",
-      "destinataireId": "51e8",
-      "expediteurId": "51e8",
-      "date": "2025-06-10T10:31:37.360Z",
-      "status": "sent"
-    },
-    {
-      "id": "1912",
-      "texte": "loubess",
-      "destinataireId": "2bf5",
-      "expediteurId": "51e8",
-      "date": "2025-06-10T10:32:09.147Z",
-      "status": "sent"
-    },
-    {
-      "id": "7da9",
-      "texte": "cv  bibina",
-      "destinataireId": "da32",
-      "expediteurId": "51e8",
-      "date": "2025-06-10T11:27:35.977Z",
-      "status": "sent"
-    },
     {
       "id": "3342",
       "texte": "cvvv",
@@ -366,47 +167,6 @@
       "admin": "51e8"
     },
     {
-      "id": "0ce2",
-      "name": "dev data",
-      "members": [
-        "1",
-        "51e8"
-      ],
-      "createdAt": "2025-06-08T18:21:26.238Z",
-      "admin": "51e8"
-    },
-    {
-      "id": "f83c",
-      "name": "dev web",
-      "members": [
-        "51e8",
-        "1",
-        "2"
-      ],
-      "admin": "51e8",
-      "createdAt": "2025-06-08T18:26:58.305Z"
-    },
-    {
-      "id": "95bd",
-      "name": "AWS",
-      "members": [
-        "51e8",
-        "1"
-      ],
-      "admin": "51e8",
-      "createdAt": "2025-06-08T18:30:14.587Z"
-    },
-    {
-      "id": "e719",
-      "name": "ref dig",
-      "members": [
-        "51e8",
-        "1"
-      ],
-      "admin": "51e8",
-      "createdAt": "2025-06-08T18:37:00.094Z"
-    },
-    {
       "id": "0283",
       "name": "dev wqqq",
       "members": [
@@ -415,6 +175,62 @@
       ],
       "admin": "51e8",
       "createdAt": "2025-06-09T11:39:44.291Z"
+    },
+    {
+      "id": "bcf7",
+      "name": "dev web",
+      "members": [
+        "d7e3",
+        1
+      ],
+      "admin": "d7e3",
+      "createdAt": "2025-06-11T20:03:03.484Z",
+      "createdBy": "astou diop 2"
+    },
+    {
+      "id": "bb1c",
+      "name": "dev web",
+      "members": [
+        "d9ad",
+        1
+      ],
+      "admin": "d9ad",
+      "createdAt": "2025-06-11T23:55:01.438Z",
+      "createdBy": "astou  wade"
+    },
+    {
+      "id": "4bfb",
+      "name": "www",
+      "members": [
+        "9751",
+        1
+      ],
+      "admin": "9751",
+      "createdAt": "2025-06-12T00:16:25.280Z",
+      "createdBy": "Maman Niang 3"
+    },
+    {
+      "id": "b0a0",
+      "name": "hakeuse",
+      "members": [
+        "eced",
+        1,
+        null,
+        3
+      ],
+      "admin": "eced",
+      "createdAt": "2025-06-12T00:37:02.119Z",
+      "createdBy": "tanfy  sy"
+    },
+    {
+      "id": "65bf",
+      "name": "teu seu",
+      "members": [
+        "5631",
+        "1"
+      ],
+      "admin": "5631",
+      "createdAt": "2025-06-12T07:37:51.779Z"
     }
   ]
 }
