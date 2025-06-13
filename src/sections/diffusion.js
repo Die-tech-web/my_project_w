@@ -3,7 +3,7 @@ import { createElement } from "../utils.js";
 export function creerSectionDiffusion() {
   const container = createElement("div", {
     class: "h-full flex flex-col",
-    style: { backgroundColor: "[95D2B3 p-2 border-r border-gray-300" }, 
+    style: { backgroundColor: "[95D2B3 p-2 border-r border-gray-300" },
   });
 
   const header = createElement("div", {
@@ -57,11 +57,25 @@ export function creerSectionDiffusion() {
   // Fonction pour charger les contacts depuis json-server
   async function loadContactsForDiffusion() {
     try {
-      const response = await fetch("http://localhost:3000/users");
-      const contacts = await response.json();
+      const [contactsResponse, archivesResponse] = await Promise.all([
+        fetch(API_ENDPOINTS.USERS),
+        fetch(API_ENDPOINTS.ARCHIVES),
+      ]);
+
+      const contacts = await contactsResponse.json();
+      const archives = await archivesResponse.json();
+
+      const archivedContactIds = archives
+        .filter((a) => a.itemType === "contact")
+        .map((a) => a.itemId);
+
+      // Filtrer les contacts non archivés
+      const activeContacts = contacts.filter(
+        (contact) => !archivedContactIds.includes(contact.id)
+      );
 
       contactList.innerHTML = "";
-      contacts.forEach((contact) => {
+      activeContacts.forEach((contact) => {
         // Séparation du nom complet en prénom et nom
         const [firstName = "", lastName = ""] = contact.name.split(" ");
         const initials = `${firstName[0] || ""}${

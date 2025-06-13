@@ -8,5 +8,6 @@ export const API_ENDPOINTS = {
   MESSAGES: `${API_URL}/messages`,
   CONTACTS: `${API_URL}/contacts`,
   STATUS: `${API_URL}/status`,
-  API_URL: API_URL
+  API_URL: API_URL,
+  ARCHIVES: "http://localhost:3000/archives",
 };

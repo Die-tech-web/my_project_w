@@ -1,6 +1,5 @@
 {
   "users": [
-    
     {
       "id": "7be3",
       "name": "ousmane marra",
@@ -8,8 +7,103 @@
       "initials": "OM",
       "status": "online",
       "lastSeen": "2025-06-13T09:45:21.675Z"
+    },
+    {
+      "id": "b8ce",
+      "name": "mari v",
+      "phone": "7777777777",
+      "initials": "MV",
+      "status": "online",
+      "lastSeen": "2025-06-13T11:26:30.592Z"
+    },
+    {
+      "id": "0537",
+      "name": "nn n",
+      "phone": "6666666666",
+      "initials": "NN",
+      "status": "online",
+      "lastSeen": "2025-06-13T12:02:10.701Z"
+    },
+    {
+      "id": "7456",
+      "name": "nn n 2",
+      "phone": "6666666688",
+      "initials": "NN",
+      "status": "online",
+      "lastSeen": "2025-06-13T12:02:25.793Z"
+    },
+    {
+      "id": "bbcf",
+      "name": "ami ds",
+      "phone": "4444444444",
+      "initials": "AD",
+      "status": "online",
+      "lastSeen": "2025-06-13T12:16:25.171Z"
+    },
+    {
+      "id": "dad6",
+      "name": "ma khady",
+      "phone": "8888888888",
+      "initials": "MK",
+      "status": "online",
+      "lastSeen": "2025-06-13T12:23:16.267Z"
+    },
+    {
+      "id": "3054",
+      "name": "a a",
+      "phone": "7777777777",
+      "initials": "AA",
+      "status": "online",
+      "lastSeen": "2025-06-13T12:23:45.694Z"
+    },
+    {
+      "id": "0e15",
+      "name": "a a 2",
+      "phone": "7777777771",
+      "initials": "AA",
+      "status": "online",
+      "lastSeen": "2025-06-13T12:23:57.929Z"
+    },
+    {
+      "id": "5e10",
+      "name": "aaa q",
+      "phone": "2333333333",
+      "initials": "AQ",
+      "status": "online",
+      "lastSeen": "2025-06-13T12:25:37.725Z"
+    },
+    {
+      "id": "3b18",
+      "name": "amy sdio",
+      "phone": "8888888888",
+      "initials": "AS",
+      "status": "online",
+      "lastSeen": "2025-06-13T12:31:52.523Z"
+    },
+    {
+      "id": "e8d0",
+      "name": "amy sdio",
+      "phone": "8888888888",
+      "initials": "AS",
+      "status": "online",
+      "lastSeen": "2025-06-13T12:31:52.888Z"
+    },
+    {
+      "id": "ec72",
+      "name": "ok kj",
+      "phone": "5455555555",
+      "initials": "OK",
+      "status": "online",
+      "lastSeen": "2025-06-13T12:38:56.164Z"
+    },
+    {
+      "id": "0c62",
+      "name": "vie cc",
+      "phone": "7777777777",
+      "initials": "VC",
+      "status": "online",
+      "lastSeen": "2025-06-13T12:47:48.190Z"
     }
-   
   ],
   "conversations": [
     {
@@ -100,59 +194,112 @@
       "createdBy": "Maman Niang 3"
     },
     {
-      "id": "b0a0",
-      "name": "hakeuse",
+      "id": "6de6",
+      "name": "lllll",
       "members": [
-        "eced",
-        1,
-        null,
-        3
+        "8cd2",
+        "7be3"
       ],
-      "admin": "eced",
-      "createdAt": "2025-06-12T00:37:02.119Z",
-      "createdBy": "tanfy  sy"
+      "admin": "8cd2",
+      "createdAt": "2025-06-13T10:21:38.684Z"
+    }
+  ],
+  "archives": [
+    {
+      "id": "1",
+      "itemId": "7be3",
+      "itemType": "contact",
+      "archivedAt": "2025-06-13T10:30:00.000Z"
     },
     {
-      "id": "65bf",
-      "name": "teu seu",
-      "members": [
-        "5631",
-        "1"
-      ],
-      "admin": "5631",
-      "createdAt": "2025-06-12T07:37:51.779Z"
+      "id": "d897",
+      "contactId": "a7db",
+      "archivedAt": "2025-06-13T12:04:07.068Z"
     },
     {
-      "id": "b115",
-      "name": "wawaw",
-      "members": [
-        "265f",
-        "1"
-      ],
-      "admin": "265f",
-      "createdAt": "2025-06-12T08:53:33.652Z"
+      "id": "8dde",
+      "contactId": "a7db",
+      "archivedAt": "2025-06-13T12:04:11.491Z"
     },
     {
-      "id": "761c",
-      "name": "ccc",
-      "members": [
-        "265f",
-        "1"
-      ],
-      "admin": "265f",
-      "createdAt": "2025-06-12T11:01:33.489Z"
+      "id": "7061",
+      "contactId": "a7db",
+      "archivedAt": "2025-06-13T12:04:19.500Z"
     },
     {
-      "id": "5b1b",
-      "name": "pouye",
-      "members": [
-        "b85d",
-        "1",
-        "fb34",
-        "3cbe"
-      ],
-      "admin": "b85d",
-      "createdAt": "2025-06-13T08:51:31.175Z"
+      "id": "0bf6",
+      "contactId": "a7db",
+      "archivedAt": "2025-06-13T12:04:25.766Z"
+    },
+    {
+      "id": "6fe6",
+      "contactId": "a7db",
+      "archivedAt": "2025-06-13T12:04:28.956Z"
+    },
+    {
+      "id": "b97e",
+      "contactId": "ba73",
+      "archivedAt": "2025-06-13T12:04:31.110Z"
+    },
+    {
+      "id": "e0f2",
+      "contactId": "ba73",
+      "archivedAt": "2025-06-13T12:04:32.245Z"
+    },
+    {
+      "id": "a1e0",
+      "contactId": "5c4a",
+      "archivedAt": "2025-06-13T12:04:34.892Z"
+    },
+    {
+      "id": "06d6",
+      "contactId": "d000",
+      "archivedAt": "2025-06-13T12:04:37.135Z"
+    },
+    {
+      "id": "3c89",
+      "contactId": "15d3",
+      "archivedAt": "2025-06-13T12:12:58.377Z"
+    },
+    {
+      "id": "ae63",
+      "contactId": "15d3",
+      "archivedAt": "2025-06-13T12:16:37.865Z"
+    },
+    {
+      "id": "0898",
+      "contactId": "15d3",
+      "archivedAt": "2025-06-13T12:17:02.355Z"
+    },
+    {
+      "id": "8115",
+      "itemId": "MI8JmmK",
+      "itemType": "contact",
+      "archivedAt": "2025-06-13T12:24:12.065Z"
+    },
+    {
+      "id": "d627",
+      "itemId": "HXgYj-Z",
+      "itemType": "contact",
+      "archivedAt": "2025-06-13T12:31:07.024Z"
+    },
+    {
+      "id": "04c6",
+      "itemId": "4NvrvgA",
+      "itemType": "contact",
+      "archivedAt": "2025-06-13T12:32:02.918Z"
+    },
+    {
+      "id": "73e4",
+      "itemId": "O0KY7u_",
+      "itemType": "contact",
+      "archivedAt": "2025-06-13T12:32:10.431Z"
+    },
+    {
+      "id": "6e52",
+      "itemId": "N7-K5eV",
+      "itemType": "contact",
+      "archivedAt": "2025-06-13T12:39:08.836Z"
     }
   ]
 }

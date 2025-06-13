@@ -8,6 +8,8 @@ import { createChatView } from "../messages/chatView.js";
 import { listUpdateService } from "../services/listUpdateService.js";
 import { showNotification } from "../components/notifications.js";
 import { deleteContact } from "../services/deleteService.js";
+import { archiveService } from "../services/archiveService.js";
+import { createArchivedContactsList } from "../components/archivedContactsList.js";
 
 let discussionsContainer = null;
 
@@ -33,30 +35,34 @@ export function creerSectionDiscussions() {
     "Discussions"
   );
 
-  const headerRight = createElement("div", {
-    class: "flex items-center space-x-3",
-  });
-
+  // Dans la fonction creerSectionDiscussions, après la création du header
   const icons = [
     { icon: "fa-regular fa-comment", action: () => {} },
-    { icon: "fa-solid fa-archive", action: () => {} },
+    {
+      icon: "fa-solid fa-archive",
+      action: async () => {
+        const archivedListModal = await createArchivedContactsList();
+        document.body.appendChild(archivedListModal);
+      },
+    },
     { icon: "fa-solid fa-ellipsis-vertical", action: () => {} },
   ];
 
+  const headerRight = createElement("div", {
+    class: "flex items-center gap-4",
+  });
+
   icons.forEach(({ icon, action }) => {
-    const iconButton = createElement("button", {
+    const button = createElement("button", {
       class:
-        "text-white hover:bg-white/20 p-2 rounded-full transition-colors duration-200",
+        "text-white hover:bg-[#0A6847] p-2 rounded-full transition-colors duration-200",
       onclick: action,
     });
-
-    const iconElement = createElement("i", {
-      class: `${icon} text-xl`,
-    });
-
-    iconButton.appendChild(iconElement);
-    headerRight.appendChild(iconButton);
+    button.innerHTML = `<i class="${icon}"></i>`;
+    headerRight.appendChild(button);
   });
+
+  header.appendChild(headerRight);
 
   // Bouton statut
   const statusButton = createElement("button", {
@@ -171,13 +177,26 @@ export function creerSectionDiscussions() {
   // Fonction pour charger contacts et groupes
   async function loadDiscussions() {
     try {
-      const [contactsResponse, groupsResponse] = await Promise.all([
-        fetch(API_ENDPOINTS.USERS),
-        fetch(API_ENDPOINTS.GROUPS),
-      ]);
+      const [contactsResponse, groupsResponse, archivesResponse] =
+        await Promise.all([
+          fetch(API_ENDPOINTS.USERS),
+          fetch(API_ENDPOINTS.GROUPS),
+          fetch(API_ENDPOINTS.ARCHIVES),
+        ]);
 
       const contacts = await contactsResponse.json();
       const groups = await groupsResponse.json();
+      const archives = await archivesResponse.json();
+
+      // Récupérer les IDs des contacts archivés
+      const archivedContactIds = archives
+        .filter((a) => a.itemType === "contact")
+        .map((a) => a.itemId);
+
+      // Filtrer les contacts non archivés
+      const activeContacts = contacts.filter(
+        (contact) => !archivedContactIds.includes(contact.id)
+      );
 
       const discussionsList = document.querySelector("#discussions-list");
       if (!discussionsList) return;
@@ -185,7 +204,7 @@ export function creerSectionDiscussions() {
       discussionsList.innerHTML = "";
 
       // Trier les contacts
-      const sortedContacts = contacts.sort(
+      const sortedContacts = activeContacts.sort(
         (a, b) => new Date(b.lastSeen || 0) - new Date(a.lastSeen || 0)
       );
 
@@ -194,9 +213,9 @@ export function creerSectionDiscussions() {
         const discussionElement = createElement("div", {
           class:
             "flex items-center p-3 hover:bg-[#33415c] rounded-lg cursor-pointer transition-colors duration-200 relative group",
-          onclick: (e) => {
-            if (!e.target.closest(".delete-btn")) {
-              handleContactClick(contact);
+          onclick: (event) => {
+            if (!event.target.closest(".delete-btn")) {
+              handleContactClick(contact, event);
             }
           },
         });
@@ -259,7 +278,6 @@ export function creerSectionDiscussions() {
         discussionsList.appendChild(discussionElement);
       });
 
-      // Affichage des groupes
       groups.forEach((group) => {
         const discussionElement = createElement("div", {
           class:
@@ -298,13 +316,18 @@ export function creerSectionDiscussions() {
     }
   }
 
-  function handleContactClick(contact) {
-    // Retirer la sélection précédente
+  function handleContactClick(contact, event) {
+    if (event && event.ctrlKey) {
+      console.log("Tentative d'archivage du contact:", contact.id); // Pour le debug
+      archiveService.archiveContact(contact.id);
+      return;
+    }
+
+    // Code existant pour ouvrir le chat
     document
       .querySelectorAll(".selected-item")
       .forEach((el) => el.classList.remove("selected-item"));
 
-    // Ajouter la classe à l'élément cliqué
     event.currentTarget.classList.add("selected-item");
     event.currentTarget.dataset.type = "contact";
     event.currentTarget.dataset.id = contact.id;
@@ -397,23 +420,28 @@ export function creerSectionDiscussions() {
     }
   }
 
-  // S'abonner aux mises à jour des contacts
   listUpdateService.subscribe("contacts", () => {
     loadDiscussions();
   });
 
-  // Charger les données initiales
   loadDiscussions();
   loadStatus();
 
-  // Écouter les événements
   window.addEventListener("contactAdded", loadDiscussions);
   window.addEventListener("groupCreated", loadDiscussions);
   window.addEventListener("statusUpdated", loadStatus);
   window.addEventListener("contactDeleted", () => {
     loadDiscussions();
-    // Mettre à jour aussi la section diffusion
+
     document.dispatchEvent(new CustomEvent("updateDiffusion"));
+  });
+
+  document.addEventListener("contactUnarchived", () => {
+    loadDiscussions(); // Recharge la liste des discussions
+  });
+
+  document.addEventListener("contactArchived", () => {
+    loadDiscussions(); // Recharge la liste des discussions
   });
 
   container.append(header, searchContainer, statusSection, discussionsList);
@@ -428,7 +456,6 @@ export function updateDiscussions() {
   }
 }
 
-// Écouteurs d'événements pour les mises à jour
 document.addEventListener("contactAdded", () => {
   loadDiscussions();
 });
@@ -438,5 +465,4 @@ document.addEventListener("contactDeleted", () => {
   document.dispatchEvent(new CustomEvent("updateDiffusion"));
 });
 
-// Ajoutez cet écouteur dans votre composant addContact.js après l'ajout réussi
 document.dispatchEvent(new CustomEvent("contactAdded"));
