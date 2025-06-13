@@ -6,7 +6,35 @@ import { createUserProfileModal } from "./components/userProfile.js";
 export function creerSidebar() {
   const icones = [
     { icon: "fa-file-lines", badge: "118" },
-    { icon: "fa-chart-pie" },
+    {
+      icon: "fa-trash",
+      action: () => {
+        const currentlySelected = document.querySelector(".selected-item");
+        if (currentlySelected) {
+          const itemType = currentlySelected.dataset.type; // 'contact' ou 'group'
+          const itemId = currentlySelected.dataset.id;
+
+          const modal = createDeleteConfirmationModal(
+            itemType,
+            { id: itemId },
+            async () => {
+              if (itemType === "contact") {
+                await deleteContact(itemId);
+              } else if (itemType === "group") {
+                await deleteGroup(itemId);
+              }
+            }
+          );
+
+          document.body.appendChild(modal);
+        } else {
+          showNotification(
+            "Veuillez sélectionner un contact ou un groupe",
+            "info"
+          );
+        }
+      },
+    },
     {
       icon: "fa-users",
       action: () => {
@@ -14,7 +42,7 @@ export function creerSidebar() {
         document
           .querySelector(".section-diffusion")
           ?.classList.remove("hidden");
-        updateDiffusionGroups(); 
+        updateDiffusionGroups();
       },
     },
     {
@@ -36,7 +64,6 @@ export function creerSidebar() {
               updateDiscussions();
               container.remove();
 
-              
               const successMessage = createElement(
                 "div",
                 {
@@ -65,7 +92,7 @@ export function creerSidebar() {
 
   const container = createElement("div", {
     class: "flex flex-col justify-between text-white h-full w-16",
-    style: { backgroundColor: "#BEE4D0" },
+    style: { backgroundColor: "#012a4a" },
   });
 
   const topIcons = createElement("div", {
@@ -79,7 +106,7 @@ export function creerSidebar() {
     });
 
     const iconEl = createElement("i", {
-      class: `fa-solid ${icon} text-xl`,
+      class: `fa-solid ${icon} text-xl mt-2`,
     });
 
     wrapper.appendChild(iconEl);
@@ -89,7 +116,7 @@ export function creerSidebar() {
         "span",
         {
           class:
-            "absolute -top-2 -right-2 text-xs bg-teal-500 rounded-full px-1",
+            "absolute -top-2 -right-2 text-xs bg-teal-500 rounded-full px-1 mt-3",
         },
         badge
       );

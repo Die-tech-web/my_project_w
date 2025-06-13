@@ -17,12 +17,11 @@ export function createAddContactModal() {
   const title = createElement(
     "h3",
     {
-      class: "text-xl font-bold mb-4 text-center text-gray-800",
+      class: "text-xl font-bold mb-4 text-center text-black",
     },
     "Ajouter un contact"
   );
 
-  // Fonction pour afficher les messages d'erreur (réutilisée du login)
   const showError = (fieldId, message) => {
     const existingError = document.getElementById(`${fieldId}-error`);
     if (existingError) {
@@ -84,8 +83,10 @@ export function createAddContactModal() {
         });
 
         if (response.ok) {
-          overlay.remove();
-          window.dispatchEvent(new CustomEvent("contactAdded"));
+          showNotification("Contact ajouté avec succès", "success");
+          modal.remove();
+          // Déclencher la mise à jour des discussions
+          document.dispatchEvent(new CustomEvent("contactAdded"));
         }
       } catch (error) {
         showError("form", "Erreur de connexion au serveur");
@@ -121,7 +122,7 @@ export function createAddContactModal() {
       id: field.id,
       placeholder: field.placeholder,
       class:
-        "w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 text-gray-600 placeholder-gray-400 focus:outline-none focus:border-[#95D2B3]",
+        "w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 text-black placeholder-gray-400 focus:outline-none focus:border-[#95D2B3]",
       oninput: () => {
         const errorEl = document.getElementById(`${field.id}-error`);
         if (errorEl) errorEl.remove();

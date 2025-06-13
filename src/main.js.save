@@ -1,0 +1,33 @@
+
+import "./style.css";
+import "./styles/darkTheme.css";
+import { createElement } from "./utils.js";
+import { creerInterface } from "./interface.js";
+import { createLoginForm } from "./login.js";
+import { createThemeToggle } from "./components/themeToggle.js";
+import { initTheme } from "./services/themeService.js";
+
+window.createElement = createElement;
+
+function init() {
+  const app = document.getElementById("app");
+  if (!app) return;
+
+  // Initialiser le thème
+  initTheme();
+
+  const user = localStorage.getItem("whatsappUser");
+
+  if (user) {
+    app.appendChild(creerInterface());
+    document.body.appendChild(createThemeToggle());
+  } else {
+    app.appendChild(createLoginForm());
+  }
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", init);
+} else {
+  init();
+}

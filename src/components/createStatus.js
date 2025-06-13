@@ -1,7 +1,6 @@
 import { createElement } from "../utils.js";
 import { showNotification } from "./notifications.js";
 
-// Fonctions utilitaires pour le stockage local
 function saveStatus(statusData) {
   try {
     const statuses = JSON.parse(localStorage.getItem("userStatuses") || "[]");
@@ -32,7 +31,6 @@ function canCreateStatus() {
   }
 }
 
-// Fonction utilitaire pour convertir un fichier en base64
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
     try {
@@ -49,7 +47,6 @@ function fileToBase64(file) {
 export function createStatusModal() {
   console.log("Création du modal de statut");
   
-  // Vérifier si l'utilisateur peut créer des statuts
   if (!canCreateStatus()) {
     console.log("Utilisateur non connecté");
     if (typeof showNotification === 'function') {
@@ -139,7 +136,7 @@ export function createStatusModal() {
   ];
 
   let selectedType = "text";
-  let selectedColor = "#10b981"; // Vert par défaut
+  let selectedColor = "#10b981"; 
 
   types.forEach(type => {
     const button = createElement("button", {
@@ -174,8 +171,12 @@ export function createStatusModal() {
   });
 
   const submitButton = createElement("button", {
-    class: "w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-4 rounded-xl hover:from-green-600 hover:to-green-700 transition-all duration-200 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:scale-105",
+    class: "w-full text-white py-4 rounded-xl transition-all duration-200 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:scale-105",
+    style: {
+      backgroundColor: "#33415c",
+    },
   });
+  
   submitButton.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Publier le statut';
   submitButton.addEventListener("click", handleSubmit);
 
@@ -183,7 +184,6 @@ export function createStatusModal() {
     selectedType = type;
     console.log("Type sélectionné:", type);
     
-    // Mettre à jour les boutons
     typeSelector.querySelectorAll("button").forEach((btn, index) => {
       const currentType = types[index];
       if (currentType.id === type) {
@@ -197,7 +197,6 @@ export function createStatusModal() {
       }
     });
 
-    // Mettre à jour la zone de contenu
     updateContentArea();
   }
 
@@ -206,7 +205,6 @@ export function createStatusModal() {
 
     switch (selectedType) {
       case "text":
-        // Sélecteur de couleurs
         const colorSection = createElement("div", {
           class: "mb-4",
         });
@@ -222,7 +220,6 @@ export function createStatusModal() {
 
         const colors = [
           "#10b981", "#3b82f6", "#8b5cf6", "#ef4444", "#f59e0b", "#06b6d4",
-          "#84cc16", "#ec4899", "#6366f1", "#f97316", "#14b8a6", "#a855f7",
           "#22c55e", "#2563eb", "#dc2626", "#ca8a04", "#0891b2", "#7c3aed"
         ];
 
@@ -236,7 +233,6 @@ export function createStatusModal() {
 
           colorButton.addEventListener("click", () => {
             selectedColor = color;
-            // Mettre à jour les styles des boutons de couleur
             colorGrid.querySelectorAll("button").forEach(btn => {
               if (btn === colorButton) {
                 btn.className = "w-10 h-10 rounded-full border-4 transition-all duration-200 border-gray-800 scale-110";

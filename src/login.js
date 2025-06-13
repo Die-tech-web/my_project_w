@@ -4,7 +4,7 @@ import { API_URL } from "./config.js";
 
 export function createLoginForm() {
   const container = createElement("div", {
-    class: "fixed inset-0 flex items-center justify-center bg-[#95D2B3]",
+    class: "fixed inset-0 flex items-center justify-center bg-[#33415c]",
   });
 
   const formCard = createElement("div", {
@@ -13,7 +13,7 @@ export function createLoginForm() {
 
   const logoContainer = createElement("div", {
     class:
-      "w-16 h-16 bg-[#95D2B3] rounded-full mx-auto mb-4 flex items-center justify-center",
+      "w-16 h-16 bg-[#33415c] rounded-full mx-auto mb-4 flex items-center justify-center",
   });
 
   const logo = createElement("i", {
@@ -73,7 +73,6 @@ export function createLoginForm() {
       const errors = validateForm(formData);
 
       if (Object.keys(errors).length > 0) {
-        // Afficher les erreurs sous chaque champ
         Object.entries(errors).forEach(([field, message]) => {
           showError(field, message);
         });
@@ -81,7 +80,6 @@ export function createLoginForm() {
       }
 
       try {
-        // Vérifier si l'utilisateur existe
         const response = await fetch(
           `${API_URL}/users?phone=${formData.phone}`
         );
@@ -89,7 +87,6 @@ export function createLoginForm() {
 
         let userId;
         if (users.length === 0) {
-          // Créer un nouvel utilisateur
           const newUser = {
             name: `${formData.firstName} ${formData.lastName}`,
             phone: formData.phone,
@@ -109,7 +106,6 @@ export function createLoginForm() {
           userId = users[0].id;
         }
 
-        // Sauvegarder les infos dans localStorage
         localStorage.setItem(
           "whatsappUser",
           JSON.stringify({
@@ -120,7 +116,6 @@ export function createLoginForm() {
           })
         );
 
-        // Rediriger vers l'interface principale
         window.location.reload();
       } catch (error) {
         showError("form", "Erreur de connexion au serveur");
@@ -128,7 +123,6 @@ export function createLoginForm() {
     },
   });
 
-  // Créer les champs avec le nouveau style
   const fields = [
     {
       label: "Prénom",
@@ -147,7 +141,6 @@ export function createLoginForm() {
     },
   ];
 
-  // Modifier la création des champs pour inclure la gestion des erreurs
   fields.forEach((field) => {
     const fieldContainer = createElement("div", {
       class: "space-y-1",
@@ -164,10 +157,9 @@ export function createLoginForm() {
     const input = createElement("input", {
       type: field.id === "phone" ? "tel" : "text",
       id: field.id,
-      placeholder: field.placeholder,
+      placeholder: field.placeholder, 
       class:
-        "w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 text-gray-600 placeholder-gray-400 focus:outline-none focus:border-[#95D2B3]",
-      // Ajout d'un gestionnaire d'événements pour effacer l'erreur lors de la saisie
+        "w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 text-black placeholder-gray-400 focus:outline-none focus:border-[#33415c]",
       oninput: () => {
         const errorEl = document.getElementById(`${field.id}-error`);
         if (errorEl) errorEl.remove();
@@ -184,7 +176,7 @@ export function createLoginForm() {
     {
       type: "submit",
       class:
-        "w-full py-3 bg-[#95D2B3] text-white rounded-xl mt-6 hover:bg-[#7BC0A1] transition-colors duration-200",
+        "w-full py-3 bg-[#33415c] text-white rounded-xl mt-6 hover:bg-[#002855] transition-colors duration-200",
     },
     "Se connecter"
   );

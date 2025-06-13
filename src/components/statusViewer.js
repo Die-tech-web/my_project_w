@@ -75,7 +75,7 @@ export function createStatusViewer(statusList, initialIndex = 0) {
       } else {
         closeViewer();
       }
-    }, 5000); // 5 secondes par statut
+    }, 5000); 
   }
 
   function stopAutoProgress() {
@@ -89,12 +89,10 @@ export function createStatusViewer(statusList, initialIndex = 0) {
     const status = statusList[currentIndex];
     if (!status) return;
 
-    // Marquer comme vu si ce n'est pas le statut de l'utilisateur actuel
     if (status.userId !== currentUser?.id) {
       addStatusView(status.id, currentUser.id);
     }
 
-    // Info utilisateur
     const timeAgo = getTimeAgo(status.timestamp);
     userInfo.innerHTML = `
       <div class="flex items-center">
@@ -118,7 +116,7 @@ export function createStatusViewer(statusList, initialIndex = 0) {
       </div>
     `;
 
-    // Contenu du statut
+   
     content.innerHTML = "";
     
     if (status.type === "text") {
@@ -188,13 +186,11 @@ export function createStatusViewer(statusList, initialIndex = 0) {
     return "1j";
   }
 
-  // Pause auto-progress quand on touche l'écran
   container.addEventListener('touchstart', stopAutoProgress);
   container.addEventListener('mousedown', stopAutoProgress);
   container.addEventListener('touchend', startAutoProgress);
   container.addEventListener('mouseup', startAutoProgress);
 
-  // Initialiser
   renderStatus();
 
   header.append(progressBar, userInfo);
@@ -213,7 +209,6 @@ export async function viewUserStatus(userId, userName) {
       return;
     }
 
-    // Filtrer les statuts non expirés
     const activeStatus = userStatus.filter(status => {
       const expiresAt = new Date(status.expiresAt);
       return expiresAt > new Date();

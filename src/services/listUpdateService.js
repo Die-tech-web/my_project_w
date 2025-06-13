@@ -7,16 +7,18 @@ class ListUpdateService {
     this.contactsCache = [];
   }
 
-  // S'abonner aux mises à jour d'une liste
   subscribe(listType, callback) {
     if (!this.observers.has(listType)) {
       this.observers.set(listType, []);
     }
     this.observers.get(listType).push(callback);
-    console.log(`✅ Observer ajouté pour ${listType}, total: ${this.observers.get(listType).length}`);
+    console.log(
+      `✅ Observer ajouté pour ${listType}, total: ${
+        this.observers.get(listType).length
+      }`
+    );
   }
 
-  // Se désabonner
   unsubscribe(listType, callback) {
     if (this.observers.has(listType)) {
       const callbacks = this.observers.get(listType);
@@ -51,17 +53,18 @@ class ListUpdateService {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const contacts = await response.json();
-      
+
       this.contactsCache = contacts;
       console.log(`📦 ${contacts.length} contacts récupérés`);
-      
-      // Notifier TOUS les observateurs
-      this.notify('contacts', contacts);
-      this.notify('diffusion-contacts', contacts);
-      
+
+      // Notifier tous les observateurs
+      this.notify("contacts", contacts);
+      this.notify("diffusion-contacts", contacts);
+
       return contacts;
     } catch (error) {
       console.error("❌ Erreur mise à jour contacts:", error);
+      showNotification("Erreur lors de la mise à jour des contacts", "error");
       return this.contactsCache;
     }
   }
@@ -70,7 +73,7 @@ class ListUpdateService {
   async addContact(contactData) {
     try {
       console.log("➕ Ajout contact:", contactData);
-      
+
       const response = await fetch(API_ENDPOINTS.USERS, {
         method: "POST",
         headers: {
@@ -86,15 +89,15 @@ class ListUpdateService {
 
       const newContact = await response.json();
       console.log("✅ Contact ajouté:", newContact);
-      
+
       // Ajouter au cache local immédiatement
       this.contactsCache.push(newContact);
-      
+
       // Notifier immédiatement
       console.log("🔔 Notification immédiate après ajout");
-      this.notify('contacts', [...this.contactsCache]);
-      this.notify('diffusion-contacts', [...this.contactsCache]);
-      
+      this.notify("contacts", [...this.contactsCache]);
+      this.notify("diffusion-contacts", [...this.contactsCache]);
+
       return newContact;
     } catch (error) {
       console.error("❌ Erreur ajout contact:", error);
@@ -110,10 +113,10 @@ class ListUpdateService {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const groups = await response.json();
-      
-      this.notify('groups', groups);
-      this.notify('discussion-groups', groups);
-      
+
+      this.notify("groups", groups);
+      this.notify("discussion-groups", groups);
+
       return groups;
     } catch (error) {
       console.error("Erreur mise à jour groupes:", error);
@@ -124,41 +127,50 @@ class ListUpdateService {
   // Initialiser les observateurs pour les listes existantes
   initializeObservers() {
     // Observer pour la liste des contacts
-    this.subscribe('contacts', (contacts) => {
-      console.log("Observer contacts appelé avec:", contacts.length, "contacts"); // Debug
+    this.subscribe("contacts", (contacts) => {
+      console.log(
+        "Observer contacts appelé avec:",
+        contacts.length,
+        "contacts"
+      ); // Debug
     });
 
     // Observer pour les contacts de diffusion
-    this.subscribe('diffusion-contacts', (contacts) => {
-      console.log("Observer diffusion appelé avec:", contacts.length, "contacts"); // Debug
+    this.subscribe("diffusion-contacts", (contacts) => {
+      console.log(
+        "Observer diffusion appelé avec:",
+        contacts.length,
+        "contacts"
+      ); // Debug
     });
 
     // Observer pour les groupes
-    this.subscribe('groups', (groups) => {
+    this.subscribe("groups", (groups) => {
       this.renderGroupsList(groups);
     });
 
     // Observer pour les groupes dans discussions
-    this.subscribe('discussion-groups', (groups) => {
+    this.subscribe("discussion-groups", (groups) => {
       this.renderDiscussionGroups(groups);
     });
   }
 
   // Rendu de la liste des contacts
   renderContactsList(contacts) {
-    const contactsList = document.querySelector('.contacts-list');
+    const contactsList = document.querySelector(".contacts-list");
     if (!contactsList) return;
 
-    contactsList.innerHTML = '';
+    contactsList.innerHTML = "";
 
-    contacts.forEach(contact => {
+    contacts.forEach((contact) => {
       const contactElement = createElement("div", {
-        class: "flex items-center p-3 hover:bg-[#0A6847] cursor-pointer rounded-lg",
+        class:
+          "flex items-center p-3 hover:bg-[#0A6847] cursor-pointer rounded-lg",
         onclick: () => {
           if (window.handleContactClick) {
             window.handleContactClick(contact);
           }
-        }
+        },
       });
 
       contactElement.innerHTML = `
@@ -177,14 +189,17 @@ class ListUpdateService {
 
   // Rendu des contacts de diffusion
   renderDiffusionContacts(contacts) {
-    const diffusionContactsList = document.querySelector('.diffusion-contacts-list');
+    const diffusionContactsList = document.querySelector(
+      ".diffusion-contacts-list"
+    );
     if (!diffusionContactsList) return;
 
-    diffusionContactsList.innerHTML = '';
+    diffusionContactsList.innerHTML = "";
 
-    contacts.forEach(contact => {
+    contacts.forEach((contact) => {
       const contactElement = createElement("div", {
-        class: "flex items-center p-2 hover:bg-[#0A6847] cursor-pointer rounded-lg",
+        class:
+          "flex items-center p-2 hover:bg-[#0A6847] cursor-pointer rounded-lg",
       });
 
       contactElement.innerHTML = `
@@ -203,24 +218,26 @@ class ListUpdateService {
 
   // Rendu de la liste des groupes
   renderGroupsList(groups) {
-    const groupsList = document.querySelector('.groups-list');
+    const groupsList = document.querySelector(".groups-list");
     if (!groupsList) return;
 
-    groupsList.innerHTML = '';
+    groupsList.innerHTML = "";
 
     if (groups.length === 0) {
-      groupsList.innerHTML = '<p class="text-white text-center py-4">Aucun groupe</p>';
+      groupsList.innerHTML =
+        '<p class="text-white text-center py-4">Aucun groupe</p>';
       return;
     }
 
-    groups.forEach(group => {
+    groups.forEach((group) => {
       const groupElement = createElement("div", {
-        class: "flex flex-col p-3 mb-2 rounded-lg hover:bg-[#0A6847] cursor-pointer",
+        class:
+          "flex flex-col p-3 mb-2 rounded-lg hover:bg-[#0A6847] cursor-pointer",
         onclick: () => {
           if (window.handleGroupClick) {
             window.handleGroupClick(group);
           }
-        }
+        },
       });
 
       groupElement.innerHTML = `
@@ -245,33 +262,40 @@ class ListUpdateService {
 
   // Rendu des groupes dans discussions
   renderDiscussionGroups(groups) {
-    const discussionsSection = document.querySelector('.section-discussions');
+    const discussionsSection = document.querySelector(".section-discussions");
     if (!discussionsSection) return;
 
-    let groupsInDiscussions = discussionsSection.querySelector('.groups-in-discussions');
+    let groupsInDiscussions = discussionsSection.querySelector(
+      ".groups-in-discussions"
+    );
     if (!groupsInDiscussions) {
-      groupsInDiscussions = createElement("div", { 
-        class: "groups-in-discussions mt-4" 
+      groupsInDiscussions = createElement("div", {
+        class: "groups-in-discussions mt-4",
       });
-      
-      const groupsTitle = createElement("h4", {
-        class: "text-white text-sm font-medium mb-2 px-3"
-      }, "Groupes");
-      
+
+      const groupsTitle = createElement(
+        "h4",
+        {
+          class: "text-white text-sm font-medium mb-2 px-3",
+        },
+        "Groupes"
+      );
+
       discussionsSection.appendChild(groupsTitle);
       discussionsSection.appendChild(groupsInDiscussions);
     }
 
     groupsInDiscussions.innerHTML = "";
 
-    groups.forEach(group => {
+    groups.forEach((group) => {
       const groupElement = createElement("div", {
-        class: "flex items-center p-3 hover:bg-[#0A6847] cursor-pointer rounded-lg",
+        class:
+          "flex items-center p-3 hover:bg-[#0A6847] cursor-pointer rounded-lg",
         onclick: () => {
           if (window.handleGroupClick) {
             window.handleGroupClick(group);
           }
-        }
+        },
       });
 
       groupElement.innerHTML = `
@@ -280,7 +304,9 @@ class ListUpdateService {
         </div>
         <div>
           <h3 class="font-medium text-white">${group.name}</h3>
-          <p class="text-sm text-gray-300">${group.members ? group.members.length : 0} participants</p>
+          <p class="text-sm text-gray-300">${
+            group.members ? group.members.length : 0
+          } participants</p>
         </div>
       `;
 

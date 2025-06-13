@@ -15,7 +15,7 @@ export function createGroupModal() {
       <h3 class="text-xl font-bold mb-4 text-gray-800">Créer un groupe</h3>
       <form id="groupForm" class="space-y-4">
         <input type="text" id="groupName" placeholder="Nom du groupe" 
-          class="w-full px-4 py-3 rounded-xl bg-gray-50 border focus:border-[#95D2B3]">
+          class="w-full px-4 py-3 rounded-xl bg-gray-50 border focus:border-[#95D2B3] text-black">
         
         <!-- Administrateur par défaut -->
         <div class="p-2 bg-gray-50 rounded-lg mb-2">

@@ -1,125 +1,15 @@
 {
   "users": [
+    
     {
-      "id": "1",
-      "name": "Die Niang",
-      "phone": "+778801947",
-      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
+      "id": "7be3",
+      "name": "ousmane marra",
+      "phone": "1111111111",
+      "initials": "OM",
       "status": "online",
-      "lastSeen": "2025-06-06T10:30:00"
-    },
-    {
-      "id": "fb34",
-      "name": "Maman Niang",
-      "phone": "778801947",
-      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Maman",
-      "status": "online",
-      "lastSeen": "2025-06-11T20:00:05.337Z"
-    },
-    {
-      "id": "3cbe",
-      "name": "Maman Niang 2",
-      "phone": "7788019470",
-      "initials": "MN",
-      "status": "online",
-      "lastSeen": "2025-06-11T20:00:25.308Z"
-    },
-    {
-      "id": "df2b",
-      "name": "bibina niang",
-      "phone": "7777777770",
-      "initials": "BN",
-      "status": "online",
-      "lastSeen": "2025-06-11T23:52:14.212Z"
-    },
-    {
-      "id": "d9ad",
-      "name": "astou  wade",
-      "phone": "6677788888",
-      "initials": "AW",
-      "status": "online",
-      "lastSeen": "2025-06-11T23:52:50.024Z"
-    },
-    {
-      "id": "446d",
-      "name": "amy diop",
-      "phone": "1234567895",
-      "initials": "AD",
-      "status": "online",
-      "lastSeen": "2025-06-11T23:58:07.573Z"
-    },
-    {
-      "id": "3e7c",
-      "name": "amy  s",
-      "phone": "5555555555",
-      "initials": "AS",
-      "status": "online",
-      "lastSeen": "2025-06-12T00:02:42.386Z"
-    },
-    {
-      "id": "039e",
-      "name": "b b",
-      "phone": "7788011112",
-      "initials": "BB",
-      "status": "online",
-      "lastSeen": "2025-06-12T00:06:46.115Z"
-    },
-    {
-      "id": "8dde",
-      "name": "oj j",
-      "phone": "7788122220",
-      "initials": "OJ",
-      "status": "online",
-      "lastSeen": "2025-06-12T00:08:39.562Z"
-    },
-    {
-      "id": "9751",
-      "name": "Maman Niang 3",
-      "phone": "7788019470",
-      "initials": "MN",
-      "status": "online",
-      "lastSeen": "2025-06-12T00:12:18.605Z"
-    },
-    {
-      "id": "a1e6",
-      "name": "bbb nb",
-      "phone": "7788019477",
-      "initials": "BN",
-      "status": "online",
-      "lastSeen": "2025-06-12T00:20:30.362Z"
-    },
-    {
-      "id": "aa87",
-      "name": "assane  wade",
-      "phone": "1999999998",
-      "initials": "AW",
-      "status": "online",
-      "lastSeen": "2025-06-12T00:31:41.102Z"
-    },
-    {
-      "id": "eced",
-      "name": "tanfy  sy",
-      "phone": "5555555555",
-      "initials": "TS",
-      "status": "online",
-      "lastSeen": "2025-06-12T00:35:43.773Z"
-    },
-    {
-      "id": "5631",
-      "name": "tandy fall",
-      "phone": "2222222222",
-      "initials": "TF",
-      "status": "online",
-      "lastSeen": "2025-06-12T00:44:47.519Z"
-    },
-    {
-      "id": "265f",
-      "name": "moustapha v",
-      "phone": "1234567878",
-      "initials": "MV",
-      "status": "online",
-      "lastSeen": "2025-06-12T07:38:23.000Z"
+      "lastSeen": "2025-06-13T09:45:21.675Z"
     }
+   
   ],
   "conversations": [
     {
@@ -231,6 +121,38 @@
       ],
       "admin": "5631",
       "createdAt": "2025-06-12T07:37:51.779Z"
+    },
+    {
+      "id": "b115",
+      "name": "wawaw",
+      "members": [
+        "265f",
+        "1"
+      ],
+      "admin": "265f",
+      "createdAt": "2025-06-12T08:53:33.652Z"
+    },
+    {
+      "id": "761c",
+      "name": "ccc",
+      "members": [
+        "265f",
+        "1"
+      ],
+      "admin": "265f",
+      "createdAt": "2025-06-12T11:01:33.489Z"
+    },
+    {
+      "id": "5b1b",
+      "name": "pouye",
+      "members": [
+        "b85d",
+        "1",
+        "fb34",
+        "3cbe"
+      ],
+      "admin": "b85d",
+      "createdAt": "2025-06-13T08:51:31.175Z"
     }
   ]
 }

@@ -6,13 +6,13 @@ export function createChatView(participant) {
   console.log("Création du chat pour:", participant); // Debug
   
   const container = createElement("div", {
-    class: "h-full flex flex-col bg-[#E5DDD5]",
+    class: "h-full flex flex-col bg-[#fff]",
     id: `chat-${participant.id}`,
   });
 
   // En-tête
   const header = createElement("div", {
-    class: "flex items-center px-4 py-3 bg-[#95D2B3]",
+    class: "flex items-center px-4 py-3 bg-[#013a63]",
   });
   
   const avatar = createElement(

@@ -14,7 +14,7 @@ export function updateGroupsList() {
       groups.forEach((group) => {
         const groupElement = createElement("div", {
           class:
-            "flex items-center p-3 hover:bg-[#0A6847] group cursor-pointer",
+            "flex items-center p-3 hover:bg-[#33415c] group cursor-pointer",
         });
 
         groupElement.innerHTML = `

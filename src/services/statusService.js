@@ -2,20 +2,18 @@ import { API_ENDPOINTS } from "../config.js";
 
 export async function createStatus(statusData) {
   try {
-    // Vérifier que l'utilisateur est connecté
     const currentUser = JSON.parse(localStorage.getItem("whatsappUser"));
     if (!currentUser) {
       throw new Error("Utilisateur non connecté");
     }
 
-    // S'assurer que le statut est créé par l'utilisateur connecté
     const statusToCreate = {
       ...statusData,
       userId: currentUser.id,
       userName: currentUser.name,
       userPhone: currentUser.phone,
       timestamp: new Date().toISOString(),
-      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 24h
+      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), 
       views: [],
       isActive: true
     };
@@ -145,13 +143,11 @@ export async function addStatusView(statusId, viewerId) {
   }
 }
 
-// Fonction pour vérifier si un utilisateur peut créer des statuts
 export function canCreateStatus() {
   const currentUser = JSON.parse(localStorage.getItem("whatsappUser"));
   return currentUser !== null;
 }
 
-// Fonction pour vérifier si un utilisateur peut voir les statuts
 export function canViewStatus() {
   const currentUser = JSON.parse(localStorage.getItem("whatsappUser"));
   return currentUser !== null;

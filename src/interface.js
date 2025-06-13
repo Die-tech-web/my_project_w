@@ -21,14 +21,14 @@ export function creerInterface() {
 
   const discussionsContainer = createElement("div", {
     class: "h-full w-[380px] section-discussions",
-    style: { backgroundColor: "#69BFA3" },
+    style: { backgroundColor: "#012a4a" },
   });
   discussionsContainer.appendChild(creerSectionDiscussions());
   whiteContainer.appendChild(discussionsContainer);
 
   const diffusionContainer = createElement("div", {
     class: "h-full w-[380px] section-diffusion hidden",
-    style: { backgroundColor: "#69BFA3" },
+    style: { backgroundColor: "#012a4a" },
   });
   diffusionContainer.appendChild(creerSectionDiffusion());
   whiteContainer.appendChild(diffusionContainer);
@@ -36,7 +36,7 @@ export function creerInterface() {
   const mainContent = createElement("div", {
     id: "main-content", // Ajout de l'ID manquant
     class: "flex-1",
-    style: { backgroundColor: "#BEE4D0" },
+    style: { backgroundColor: "#012a4a" },
   });
   whiteContainer.appendChild(mainContent);
 
