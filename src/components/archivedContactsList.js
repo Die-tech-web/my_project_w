@@ -8,16 +8,16 @@ export async function createArchivedContactsList() {
       "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50",
   });
 
-  // Modifions le style du modal pour qu'il ressemble plus à WhatsApp
-
+  // Modification de la couleur de fond du modal
   const modal = createElement("div", {
-    class: "bg-[#0A6847] rounded-lg w-96 max-h-[80vh] flex flex-col shadow-xl",
-    style: "margin-top: 60px;", // Pour positionner la modal un peu plus bas
+    class: "bg-[#457b9d] rounded-lg w-96 max-h-[80vh] flex flex-col shadow-xl",
+    style: "margin-top: 60px;",
   });
 
+  // Modification de la couleur du header
   const header = createElement("div", {
     class:
-      "p-4 border-b border-white/20 flex justify-between items-center bg-[#0A6847]",
+      "p-4 border-b border-white/20 flex justify-between items-center bg-[#457b9d]",
   });
 
   header.innerHTML = `
@@ -43,17 +43,16 @@ export async function createArchivedContactsList() {
   } else {
     archivedContacts.forEach((archived) => {
       const contact = archived.contactInfo;
-      if (!contact) return; // Skip if contact info not found
+      if (!contact) return;
 
-      // Mise à jour du style des contacts archivés
       const contactDiv = createElement("div", {
         class:
-          "flex items-center justify-between p-3 hover:bg-[#457b9d] rounded-lg group cursor-pointer mb-2 transition-colors duration-200",
+          "flex items-center justify-between p-3 hover:bg-[#33415c] rounded-lg group cursor-pointer mb-2 transition-colors duration-200",
       });
 
       contactDiv.innerHTML = `
         <div class="flex items-center gap-3">
-          <div class="w-12 h-12 bg-[#457b9d] rounded-full flex items-center justify-center text-white font-medium">
+          <div class="w-12 h-12 bg-[#0A6847] rounded-full flex items-center justify-center text-white font-medium">
             ${contact.name.charAt(0).toUpperCase()}
           </div>
           <div>
@@ -66,6 +65,7 @@ export async function createArchivedContactsList() {
         </button>
       `;
 
+      // Ajout des gestionnaires d'événements
       const unarchiveBtn = contactDiv.querySelector(".unarchive-btn");
       unarchiveBtn.onclick = async (e) => {
         e.stopPropagation();
@@ -78,16 +78,6 @@ export async function createArchivedContactsList() {
           }
         }
       };
-
-      contactDiv.addEventListener("click", () => {
-        const mainContent = document.querySelector("#main-content");
-        if (mainContent) {
-          mainContent.innerHTML = "";
-          const chatView = createChatView(contact);
-          mainContent.appendChild(chatView);
-        }
-        container.remove();
-      });
 
       content.appendChild(contactDiv);
     });

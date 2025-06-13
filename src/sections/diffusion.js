@@ -1,4 +1,5 @@
 import { createElement } from "../utils.js";
+import { API_ENDPOINTS } from "../config.js"; // Ajout de l'import manquant
 
 export function creerSectionDiffusion() {
   const container = createElement("div", {
@@ -62,9 +63,14 @@ export function creerSectionDiffusion() {
         fetch(API_ENDPOINTS.ARCHIVES),
       ]);
 
+      if (!contactsResponse.ok || !archivesResponse.ok) {
+        throw new Error("Erreur lors du chargement des données");
+      }
+
       const contacts = await contactsResponse.json();
       const archives = await archivesResponse.json();
 
+      // Filtrer les contacts archivés
       const archivedContactIds = archives
         .filter((a) => a.itemType === "contact")
         .map((a) => a.itemId);
@@ -75,6 +81,7 @@ export function creerSectionDiffusion() {
       );
 
       contactList.innerHTML = "";
+
       activeContacts.forEach((contact) => {
         // Séparation du nom complet en prénom et nom
         const [firstName = "", lastName = ""] = contact.name.split(" ");
@@ -83,11 +90,11 @@ export function creerSectionDiffusion() {
         }`.toUpperCase();
 
         const contactItem = createElement("div", {
-          class: "flex items-center p-2 rounded-lg hover:bg-[#0A6847] group",
+          class:
+            "contact-item flex items-center p-2 rounded-lg hover:bg-[#0A6847] group",
           "data-contact-id": contact.id,
         });
 
-        // Conteneur gauche pour checkbox et avatar
         const leftContainer = createElement("div", {
           class: "flex items-center space-x-3",
         });
@@ -99,51 +106,38 @@ export function creerSectionDiffusion() {
             "contact-checkbox w-4 h-4 rounded border-gray-300 text-[#0A6847] focus:ring-[#0A6847] cursor-pointer",
         });
 
-        // Avatar avec initiales
-        const avatar = createElement(
-          "div",
-          {
-            class:
-              "w-10 h-10 bg-[#0A6847] rounded-full flex items-center justify-center text-white font-medium",
-          },
-          initials
-        );
+        // Avatar
+        const avatar = createElement("div", {
+          class:
+            "w-10 h-10 bg-[#0A6847] rounded-full flex items-center justify-center text-white font-medium",
+        });
+        avatar.textContent = initials;
 
-        // Conteneur pour les informations de contact
+        // Informations du contact
         const contactInfo = createElement("div", {
           class: "ml-3 flex flex-col justify-center",
         });
 
-        // Nom complet
-        const contactName = createElement(
-          "div",
-          {
-            class: "text-gray-800 font-medium group-hover:text-white",
-          },
-          contact.name
-        );
+        const contactName = createElement("div", {
+          class: "text-white font-medium group-hover:text-white",
+        });
+        contactName.textContent = contact.name;
 
-        // Numéro de téléphone
-        const contactPhone = createElement(
-          "div",
-          {
-            class: "text-gray-500 text-sm group-hover:text-white/80",
-          },
-          contact.phone
-        );
+        const contactPhone = createElement("div", {
+          class: "text-white/60 text-sm group-hover:text-white/80",
+        });
+        contactPhone.textContent = contact.phone || "";
 
-        // Assemblage des éléments
-        leftContainer.appendChild(checkbox);
-        leftContainer.appendChild(avatar);
-        contactInfo.appendChild(contactName);
-        contactInfo.appendChild(contactPhone);
-
-        contactItem.appendChild(leftContainer);
-        contactItem.appendChild(contactInfo);
+        // Assemblage
+        leftContainer.append(checkbox, avatar);
+        contactInfo.append(contactName, contactPhone);
+        contactItem.append(leftContainer, contactInfo);
         contactList.appendChild(contactItem);
       });
     } catch (error) {
-      console.error("Erreur:", error);
+      console.error("Erreur chargement contacts diffusion:", error);
+      contactList.innerHTML =
+        '<p class="text-center text-white/60 p-4">Erreur de chargement</p>';
     }
   }
 
@@ -178,11 +172,13 @@ export function creerSectionDiffusion() {
   container.appendChild(contactList);
   container.appendChild(bottomBar);
 
+  // Ajouter les écouteurs d'événements pour les mises à jour automatiques
+  document.addEventListener("contactAdded", loadContactsForDiffusion);
+  document.addEventListener("contactArchived", loadContactsForDiffusion);
+  document.addEventListener("contactUnarchived", loadContactsForDiffusion);
+
   // Charger les contacts initialement
   loadContactsForDiffusion();
-
-  // Écouter les nouveaux contacts ajoutés
-  window.addEventListener("contactAdded", loadContactsForDiffusion);
 
   return container;
 }
