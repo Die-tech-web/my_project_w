@@ -11,3 +11,5 @@ export const API_ENDPOINTS = {
   API_URL: API_URL,
   ARCHIVES: "http://localhost:3000/archives",
 };
+
+export const REFRESH_INTERVAL = 1000; // 1 seconde pour la synchronisation

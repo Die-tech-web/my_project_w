@@ -1,144 +1,115 @@
-import { envoyerNouveauMessage, getMessages } from "../services/messageService.js";
-import { createMessageBubble } from "./messageUI.js";
+import { API_ENDPOINTS } from "../config.js";
 
 export class SimpleChatManager {
-  constructor(messagesContainer, contactId) {
-    this.messagesContainer = messagesContainer;
-    this.contactId = contactId;
-    this.currentUser = JSON.parse(localStorage.getItem("whatsappUser"));
-    this.displayedMessageIds = new Set();
-    this.pollInterval = null;
-    
-    console.log("Chat initialisé pour contact:", contactId); // Debug
-    this.init();
-  }
-
-  async init() {
-    if (!this.currentUser) {
-      console.error("Utilisateur non connecté");
-      return;
-    }
-    
-    // Charger les messages existants
-    await this.loadMessages();
-    
-    // Démarrer le polling pour les nouveaux messages
+  constructor(container, participantId) {
+    this.container = container;
+    this.participantId = participantId;
+    this.lastCheck = new Date().toISOString();
+    this.messageIds = new Set(); // Pour suivre les messages déjà affichés
+    this.interval = null;
     this.startPolling();
   }
 
-  async loadMessages() {
+  startPolling() {
+    this.checkNewMessages(); // Vérifier immédiatement
+    this.interval = setInterval(() => {
+      this.checkNewMessages();
+    }, 1000); // Polling toutes les secondes
+  }
+
+  async checkNewMessages() {
     try {
-      const allMessages = await getMessages();
-      console.log("Messages récupérés:", allMessages.length); // Debug
-      
-      // Filtrer les messages de cette conversation
-      const conversationMessages = allMessages.filter(msg => 
-        (msg.expediteurId === this.currentUser.id && msg.destinataireId == this.contactId) ||
-        (msg.expediteurId == this.contactId && msg.destinataireId === this.currentUser.id)
+      const currentUser = JSON.parse(localStorage.getItem("whatsappUser"));
+      if (!currentUser) return;
+
+      // Récupérer tous les messages de la conversation
+      const response = await fetch(
+        `${API_ENDPOINTS.MESSAGES}?_sort=timestamp&_order=asc&` +
+          `expediteurId_in=${currentUser.id},${this.participantId}&` +
+          `destinataireId_in=${currentUser.id},${this.participantId}`
       );
-      
-      console.log("Messages de la conversation:", conversationMessages.length); // Debug
-      
-      // Trier par timestamp
-      conversationMessages.sort((a, b) => 
-        new Date(a.timestamp || a.date) - new Date(b.timestamp || b.date)
-      );
-      
-      // Afficher les messages
-      conversationMessages.forEach(message => {
-        this.displayMessage(message);
+
+      const messages = await response.json();
+
+      // Filtrer et afficher uniquement les nouveaux messages
+      messages.forEach((msg) => {
+        if (!this.messageIds.has(msg.id)) {
+          this.messageIds.add(msg.id);
+          this.afficherMessage(msg);
+        }
       });
-      
-    } catch (error) {
-      console.error("Erreur chargement messages:", error);
-    }
-  }
 
-  displayMessage(message) {
-    if (this.displayedMessageIds.has(message.id)) {
-      return; // Message déjà affiché
-    }
-    
-    const isSent = message.expediteurId === this.currentUser.id;
-    
-    const bubble = createMessageBubble({
-      text: message.texte,
-      timestamp: message.timestamp || message.date,
-      isSent,
-      status: message.status || "sent",
-    });
-
-    this.messagesContainer.appendChild(bubble);
-    this.displayedMessageIds.add(message.id);
-    
-    // Scroll vers le bas
-    this.scrollToBottom();
-  }
-
-  async sendMessage(texte) {
-    if (!texte || !texte.trim()) {
-      console.log("Message vide, envoi annulé");
-      return null;
-    }
-    
-    console.log("Tentative d'envoi:", texte, "vers:", this.contactId); // Debug
-    
-    try {
-      const message = await envoyerNouveauMessage(texte.trim(), this.contactId);
-      
-      if (message) {
-        console.log("Message envoyé avec succès:", message); // Debug
-        this.displayMessage(message);
-        return message;
-      } else {
-        console.error("Échec de l'envoi du message");
-        return null;
+      if (messages.length > 0) {
+        this.scrollToBottom();
       }
     } catch (error) {
-      console.error("Erreur lors de l'envoi:", error);
-      return null;
+      console.error("Erreur vérification messages:", error);
     }
   }
 
-  startPolling() {
-    // Vérifier les nouveaux messages toutes les 3 secondes
-    this.pollInterval = setInterval(async () => {
-      await this.checkForNewMessages();
-    }, 3000);
-  }
-
-  async checkForNewMessages() {
+  async envoyerNouveauMessage(texte) {
     try {
-      const allMessages = await getMessages();
-      
-      const newMessages = allMessages.filter(msg => {
-        const isForThisChat = 
-          (msg.expediteurId == this.contactId && msg.destinataireId === this.currentUser.id) ||
-          (msg.expediteurId === this.currentUser.id && msg.destinataireId == this.contactId);
-        
-        return isForThisChat && !this.displayedMessageIds.has(msg.id);
+      const currentUser = JSON.parse(localStorage.getItem("whatsappUser"));
+      if (!currentUser) return false;
+
+      const message = {
+        expediteurId: currentUser.id,
+        destinataireId: this.participantId,
+        contenu: texte,
+        timestamp: new Date().toISOString(),
+        status: "sent",
+      };
+
+      const response = await fetch(API_ENDPOINTS.MESSAGES, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(message),
       });
-      
-      newMessages.forEach(message => {
-        this.displayMessage(message);
-      });
-      
+
+      if (!response.ok) throw new Error("Erreur envoi message");
+
+      const savedMessage = await response.json();
+      this.messageIds.add(savedMessage.id);
+      this.afficherMessage(savedMessage);
+      this.scrollToBottom();
+      return true;
     } catch (error) {
-      console.error("Erreur vérification nouveaux messages:", error);
+      console.error("Erreur envoi message:", error);
+      return false;
     }
+  }
+
+  afficherMessage(message) {
+    const currentUser = JSON.parse(localStorage.getItem("whatsappUser"));
+    const isMe = message.expediteurId === currentUser.id;
+
+    const messageElement = document.createElement("div");
+    messageElement.className = `flex ${
+      isMe ? "justify-end" : "justify-start"
+    } mb-4`;
+
+    messageElement.innerHTML = `
+      <div class="max-w-[70%] break-words rounded-lg px-4 py-2 ${
+        isMe ? "bg-[#95D2B3] text-white" : "bg-gray-200 text-gray-800"
+      }">
+        <div class="message-content">${message.contenu}</div>
+        <div class="text-xs ${isMe ? "text-white/70" : "text-gray-500"} mt-1">
+          ${new Date(message.timestamp).toLocaleTimeString()}
+        </div>
+      </div>
+    `;
+
+    this.container.appendChild(messageElement);
   }
 
   scrollToBottom() {
-    setTimeout(() => {
-      this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
-    }, 100);
+    this.container.scrollTop = this.container.scrollHeight;
   }
 
   cleanup() {
-    if (this.pollInterval) {
-      clearInterval(this.pollInterval);
-      this.pollInterval = null;
+    if (this.interval) {
+      clearInterval(this.interval);
+      this.interval = null;
     }
-    console.log("Chat nettoyé pour contact:", this.contactId);
   }
 }

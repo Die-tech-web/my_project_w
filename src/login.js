@@ -149,7 +149,7 @@ export function createLoginForm() {
     const label = createElement(
       "label",
       {
-        class: "block text-[#95D2B3] text-sm",
+        class: "block text-black font-medium text-sm mb-2", 
       },
       field.label
     );
@@ -157,9 +157,11 @@ export function createLoginForm() {
     const input = createElement("input", {
       type: field.id === "phone" ? "tel" : "text",
       id: field.id,
-      placeholder: field.placeholder, 
+      placeholder: field.placeholder,
       class:
-        "w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 text-black placeholder-gray-400 focus:outline-none focus:border-[#33415c]",
+        "w-full px-4 py-3 rounded-xl bg-white border-2 border-[#33415c] text-black " +
+        "placeholder-gray-600 focus:outline-none focus:border-[#95D2B3] " +
+        "shadow-sm hover:shadow-md transition-all duration-200",
       oninput: () => {
         const errorEl = document.getElementById(`${field.id}-error`);
         if (errorEl) errorEl.remove();

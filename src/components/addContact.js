@@ -1,6 +1,7 @@
 import { createElement } from "../utils.js";
 import { validateContact } from "../validations.js";
 import { API_URL } from "../config.js";
+import { personalContactsService } from "../services/personalContactsService.js";
 
 export function createAddContactModal() {
   const overlay = createElement("div", {
@@ -45,54 +46,66 @@ export function createAddContactModal() {
 
   const form = createElement("form", {
     class: "space-y-4",
-    onsubmit: async (e) => {
-      e.preventDefault();
-      clearErrors();
+  });
 
-      const formData = {
-        name: `${document.getElementById("contactFirstName").value} ${
-          document.getElementById("contactLastName").value
-        }`.trim(),
-        phone: document.getElementById("contactPhone").value,
-      };
+  form.onsubmit = async (e) => {
+    e.preventDefault();
+    clearErrors();
 
-      const validation = await validateContact(formData);
+    const formData = {
+      name: `${document.getElementById("contactFirstName").value} ${
+        document.getElementById("contactLastName").value
+      }`.trim(),
+      phone: document.getElementById("contactPhone").value,
+    };
 
-      if (!validation.isValid) {
-        validation.errors.forEach((error) => {
-          if (error.includes("téléphone")) {
-            showError("contactPhone", error);
-          } else {
-            showError("contactFirstName", error);
-          }
-        });
+    // Ajouter la validation avant l'envoi
+    const validationErrors = await validateContact(formData);
+    if (validationErrors.length > 0) {
+      validationErrors.forEach((error) => {
+        showError("form", error);
+      });
+      return;
+    }
+
+    try {
+      // Vérifier si l'utilisateur est connecté
+      const currentUser = JSON.parse(localStorage.getItem("whatsappUser"));
+      if (!currentUser) {
+        showError("form", "Vous devez être connecté pour ajouter un contact");
         return;
       }
 
-      try {
-        const response = await fetch(`${API_URL}/users`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: validation.contact.name,
-            phone: formData.phone,
-            avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${formData.name}`,
-            status: "online",
-            lastSeen: new Date().toISOString(),
-          }),
-        });
+      // Ajouter le contact avec l'ID de l'utilisateur courant
+      const newContact = await personalContactsService.addPersonalContact({
+        ...formData,
+        ownerId: currentUser.id,
+      });
 
-        if (response.ok) {
-          showNotification("Contact ajouté avec succès", "success");
-          modal.remove();
-          // Déclencher la mise à jour des discussions
-          document.dispatchEvent(new CustomEvent("contactAdded"));
-        }
-      } catch (error) {
-        showError("form", "Erreur de connexion au serveur");
+      if (newContact) {
+        // Notification de succès
+        const event = new CustomEvent("showNotification", {
+          detail: {
+            message: "Contact ajouté avec succès",
+            type: "success",
+          },
+        });
+        document.dispatchEvent(event);
+
+        // Fermer le modal
+        overlay.remove();
+
+        // Mettre à jour la liste des contacts
+        document.dispatchEvent(new CustomEvent("contactAdded"));
       }
-    },
-  });
+    } catch (error) {
+      console.error("Erreur lors de l'ajout du contact:", error);
+      showError(
+        "form",
+        "Erreur lors de l'ajout du contact. Veuillez réessayer."
+      );
+    }
+  };
 
   const fields = [
     {

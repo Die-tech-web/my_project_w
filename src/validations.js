@@ -1,6 +1,6 @@
 import { createElement } from "./utils.js";
 import { showNotification } from "./components/notifications.js";
-import { API_URL } from "./config.js";
+import { API_URL, API_ENDPOINTS } from "./config.js";
 
 // Fonction pour valider si un numéro existe déjà
 async function isPhoneNumberUnique(phone) {
@@ -45,25 +45,14 @@ async function getNextNameNumber(name) {
 export async function validateContact(contact) {
   const errors = [];
 
-  if (!contact.name) {
-    errors.push("Le nom est obligatoire");
-  } else {
-    contact.initials = contact.name
-      .split(" ")
-      .map((part) => part.charAt(0).toUpperCase())
-      .join("");
-
-    const nextNumber = await getNextNameNumber(contact.name);
-    if (nextNumber > 0) {
-      const baseName = contact.name.replace(/\s+\d+$/, "");
-      contact.name = `${baseName} ${nextNumber}`;
-    }
+  if (!contact.name || contact.name.trim().length === 0) {
+    errors.push("Le nom est requis");
   }
 
   if (!contact.phone) {
-    errors.push("Le numéro de téléphone est obligatoire");
+    errors.push("Le numéro de téléphone est requis");
   } else if (!/^\d{10}$/.test(contact.phone)) {
-    errors.push("Le numéro de téléphone doit contenir 10 chiffres");
+    errors.push("Le numéro doit contenir 10 chiffres");
   } else {
     const isUnique = await isPhoneNumberUnique(contact.phone);
     if (!isUnique) {

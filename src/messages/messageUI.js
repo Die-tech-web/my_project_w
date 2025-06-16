@@ -7,20 +7,28 @@ export function createMessageBubble({ text, timestamp, status, isSent }) {
 
   const messageContent = createElement("div", {
     class: `max-w-[70%] rounded-lg p-3 ${
-      isSent ? "bg-[#95D2B3] text-white" : "bg-gray-100 text-gray-800"
+      isSent
+        ? "bg-[#dcf8c6] text-black ml-auto"
+        : "bg-white text-black border border-gray-200"
     }`,
   });
 
-  const textEl = createElement("p", { class: "break-words" }, text);
+  const textEl = createElement(
+    "p",
+    {
+      class: "break-words mb-1",
+    },
+    text
+  );
 
   const footer = createElement("div", {
-    class: "flex items-center justify-end gap-1 mt-1 text-xs",
+    class: "flex items-center justify-end gap-1 text-xs text-gray-500",
   });
 
   const time = createElement(
     "span",
     {
-      class: isSent ? "text-white/80" : "text-gray-500",
+      class: "text-xs",
     },
     new Date(timestamp).toLocaleTimeString([], {
       hour: "2-digit",
@@ -38,7 +46,7 @@ export function createMessageBubble({ text, timestamp, status, isSent }) {
           : status === "delivered"
           ? "check-double"
           : status === "read"
-          ? "check-double text-blue-400"
+          ? "check-double text-blue-500"
           : "check"
       } ml-1`,
     });

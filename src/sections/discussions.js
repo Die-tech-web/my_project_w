@@ -13,6 +13,148 @@ import { createArchivedContactsList } from "../components/archivedContactsList.j
 
 let discussionsContainer = null;
 
+// Déplacer loadDiscussions hors de creerSectionDiscussions
+async function loadDiscussions() {
+  try {
+    const [contactsResponse, groupsResponse, archivesResponse] =
+      await Promise.all([
+        fetch(API_ENDPOINTS.USERS),
+        fetch(API_ENDPOINTS.GROUPS),
+        fetch(API_ENDPOINTS.ARCHIVES),
+      ]);
+
+    const contacts = await contactsResponse.json();
+    const groups = await groupsResponse.json();
+    const archives = await archivesResponse.json();
+
+    // Récupérer les IDs des contacts archivés
+    const archivedContactIds = archives
+      .filter((a) => a.itemType === "contact")
+      .map((a) => a.itemId);
+
+    // Filtrer les contacts non archivés
+    const activeContacts = contacts.filter(
+      (contact) => !archivedContactIds.includes(contact.id)
+    );
+
+    const discussionsList = document.querySelector("#discussions-list");
+    if (!discussionsList) return;
+
+    discussionsList.innerHTML = "";
+
+    // Trier les contacts
+    const sortedContacts = activeContacts.sort(
+      (a, b) => new Date(b.lastSeen || 0) - new Date(a.lastSeen || 0)
+    );
+
+    // Afficher les contacts
+    sortedContacts.forEach((contact) => {
+      const discussionElement = createElement("div", {
+        class:
+          "flex items-center p-3 hover:bg-[#33415c] rounded-lg cursor-pointer transition-colors duration-200 relative group",
+        onclick: (event) => {
+          if (!event.target.closest(".delete-btn")) {
+            handleContactClick(contact, event);
+          }
+        },
+      });
+
+      const avatar = createElement(
+        "div",
+        {
+          class:
+            "w-12 h-12 bg-[#90D1CA] rounded-full flex items-center justify-center text-white font-medium mr-3",
+        },
+        contact.name.charAt(0).toUpperCase()
+      );
+
+      const info = createElement("div", { class: "flex-1" });
+      info.innerHTML = `
+          <h3 class="font-medium text-white">${contact.name}</h3>
+          <p class="text-sm text-white/80">${contact.phone}</p>
+        `;
+
+      const timeAndDelete = createElement("div", {
+        class: "flex items-center gap-2",
+      });
+
+      const time = createElement(
+        "div",
+        { class: "text-xs text-white/60" },
+        "12:30"
+      );
+
+      // Bouton de suppression
+      const deleteButton = createElement("button", {
+        class:
+          "delete-btn opacity-0 group-hover:opacity-100 text-red-500 hover:text-red-600 p-2 rounded-full hover:bg-[#ffffff1a] transition-all duration-200",
+        onclick: async (e) => {
+          e.stopPropagation();
+          try {
+            const response = await fetch(
+              `${API_ENDPOINTS.USERS}/${contact.id}`,
+              {
+                method: "DELETE",
+              }
+            );
+
+            if (response.ok) {
+              discussionElement.remove();
+              showNotification("Contact supprimé avec succès", "success");
+              document.dispatchEvent(new CustomEvent("updateDiffusion"));
+            }
+          } catch (error) {
+            console.error("Erreur suppression:", error);
+            showNotification("Erreur lors de la suppression", "error");
+          }
+        },
+      });
+
+      deleteButton.innerHTML = '<i class="fas fa-trash-alt text-sm"></i>';
+
+      timeAndDelete.append(time, deleteButton);
+      discussionElement.append(avatar, info, timeAndDelete);
+      discussionsList.appendChild(discussionElement);
+    });
+
+    groups.forEach((group) => {
+      const discussionElement = createElement("div", {
+        class:
+          "flex items-center p-3 hover:bg-[#90D1CA] rounded-lg cursor-pointer transition-colors duration-200",
+        onclick: () => handleGroupClick(group),
+      });
+
+      const avatar = createElement(
+        "div",
+        {
+          class:
+            "w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white font-medium mr-3",
+        },
+        group.name.charAt(0).toUpperCase()
+      );
+
+      const info = createElement("div", { class: "flex-1" });
+      info.innerHTML = `
+          <h3 class="font-medium text-white">${group.name}</h3>
+          <p class="text-sm text-white/80">${
+            group.members?.length || 0
+          } participants • Groupe</p>
+        `;
+
+      const time = createElement(
+        "div",
+        { class: "text-xs text-white/60" },
+        "12:30"
+      );
+
+      discussionElement.append(avatar, info, time);
+      discussionsList.appendChild(discussionElement);
+    });
+  } catch (error) {
+    console.error("Erreur chargement discussions:", error);
+  }
+}
+
 export function creerSectionDiscussions() {
   const container = createElement("div", {
     class:
@@ -316,21 +458,22 @@ export function creerSectionDiscussions() {
     }
   }
 
-  function handleContactClick(contact, event) {
+  window.handleContactClick = function (contact, event) {
     if (event && event.ctrlKey) {
-      console.log("Tentative d'archivage du contact:", contact.id); // Pour le debug
+      console.log("Tentative d'archivage du contact:", contact.id);
       archiveService.archiveContact(contact.id);
       return;
     }
 
-    // Code existant pour ouvrir le chat
     document
       .querySelectorAll(".selected-item")
       .forEach((el) => el.classList.remove("selected-item"));
 
-    event.currentTarget.classList.add("selected-item");
-    event.currentTarget.dataset.type = "contact";
-    event.currentTarget.dataset.id = contact.id;
+    if (event && event.currentTarget) {
+      event.currentTarget.classList.add("selected-item");
+      event.currentTarget.dataset.type = "contact";
+      event.currentTarget.dataset.id = contact.id;
+    }
 
     const mainContent = document.querySelector("#main-content");
     if (mainContent) {
@@ -338,7 +481,7 @@ export function creerSectionDiscussions() {
       const chatView = createChatView(contact);
       mainContent.appendChild(chatView);
     }
-  }
+  };
 
   function handleGroupClick(group) {
     document

@@ -1,9 +1,11 @@
 import { API_ENDPOINTS } from "../config.js";
 
 export async function getContacts(forceRefresh = false) {
-  const cacheKey = 'contactsList';
-  
-  // Si on force le refresh, on ignore le cache
+  const cacheKey = "contactsList";
+  const currentUser = JSON.parse(localStorage.getItem("whatsappUser"));
+
+  if (!currentUser?.id) return [];
+
   if (!forceRefresh) {
     const cached = localStorage.getItem(cacheKey);
     if (cached) {
@@ -14,20 +16,32 @@ export async function getContacts(forceRefresh = false) {
       }
     }
   }
-  
+
   try {
-    const response = await fetch(API_ENDPOINTS.USERS);
-    if (!response.ok) {
-      throw new Error(`Erreur ${response.status}`);
-    }
-    
-    const users = await response.json();
-    console.log("Contacts récupérés depuis l'API:", users);
-    
-    // Mettre à jour le cache
-    localStorage.setItem(cacheKey, JSON.stringify(users));
-    
-    return users;
+    // Récupérer les relations de contacts de l'utilisateur
+    const contactsResponse = await fetch(
+      `${API_ENDPOINTS.CONTACTS}?ownerId=${currentUser.id}`
+    );
+    const contactRelations = await contactsResponse.json();
+
+    // Récupérer les détails des utilisateurs pour chaque contact
+    const contacts = await Promise.all(
+      contactRelations.map(async (relation) => {
+        const userResponse = await fetch(
+          `${API_ENDPOINTS.USERS}/${relation.userId}`
+        );
+        const userData = await userResponse.json();
+        return {
+          ...userData,
+          relationId: relation.id,
+          createdAt: relation.createdAt,
+        };
+      })
+    );
+
+    const validContacts = contacts.filter((contact) => contact !== null);
+    localStorage.setItem(cacheKey, JSON.stringify(validContacts));
+    return validContacts;
   } catch (error) {
     console.error("Erreur récupération contacts:", error);
     return [];
@@ -35,5 +49,5 @@ export async function getContacts(forceRefresh = false) {
 }
 
 export function clearContactsCache() {
-  localStorage.removeItem('contactsList');
+  localStorage.removeItem("contactsList");
 }

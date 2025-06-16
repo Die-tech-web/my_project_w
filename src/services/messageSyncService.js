@@ -1,6 +1,7 @@
 import { API_ENDPOINTS } from "../config.js";
+import { showNotification } from "../components/notifications.js";
 
-class MessageSyncService {
+export class MessageSyncService {
   constructor() {
     this.activeChats = new Map();
     this.syncInterval = null;
@@ -9,10 +10,10 @@ class MessageSyncService {
 
   startSync() {
     if (this.syncInterval) return;
-    
+
     this.syncInterval = setInterval(() => {
       this.syncAllChats();
-    }, 2000); // Sync toutes les 2 secondes
+    }, 1000); // Réduire l'intervalle à 1 seconde
   }
 
   stopSync() {
@@ -41,29 +42,27 @@ class MessageSyncService {
     if (!currentUser) return;
 
     try {
-      // Récupérer tous les messages depuis la dernière sync
       const response = await fetch(
-        `${API_ENDPOINTS.MESSAGES}?timestamp_gte=${this.lastSync}&_sort=timestamp&_order=asc`
+        `${API_ENDPOINTS.MESSAGES}?_sort=timestamp&_order=asc&timestamp_gte=${this.lastSync}`
       );
       const newMessages = await response.json();
 
       if (newMessages.length > 0) {
         this.lastSync = new Date().toISOString();
-        
-        // Distribuer les messages aux chats actifs
-        for (const [contactId, callback] of this.activeChats) {
-          const relevantMessages = newMessages.filter(msg => 
-            (msg.expediteurId === currentUser.id && msg.destinataireId === contactId) ||
-            (msg.expediteurId === contactId && msg.destinataireId === currentUser.id)
-          );
-          
-          if (relevantMessages.length > 0) {
-            callback(relevantMessages);
+
+        newMessages.forEach((message) => {
+          if (message.destinataireId === currentUser.id) {
+            // Notification pour les nouveaux messages reçus
+            showNotification("Nouveau message reçu");
+
+            // Envoyer à la conversation active si elle existe
+            const callback = this.activeChats.get(message.expediteurId);
+            if (callback) callback([message]);
           }
-        }
+        });
       }
     } catch (error) {
-      console.error("Erreur sync messages:", error);
+      console.error("Erreur synchronisation:", error);
     }
   }
 }
