@@ -609,3 +609,39 @@ document.addEventListener("contactDeleted", () => {
 });
 
 document.dispatchEvent(new CustomEvent("contactAdded"));
+
+function createContactElement(contact) {
+  if (!contact) return null;
+
+  const lastSeen = contact.lastSeen
+    ? new Date(contact.lastSeen).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+    : "12:30";
+
+  const name = contact.name || "Sans nom";
+  const status = contact.status || "offline";
+
+  const element = createElement("div", {
+    class: "flex items-center p-3 hover:bg-[#0A6847] cursor-pointer rounded-lg",
+    onclick: () => {
+      if (window.handleContactClick) {
+        window.handleContactClick(contact);
+      }
+    },
+  });
+
+  element.innerHTML = `
+    <div class="w-12 h-12 rounded-full bg-[#95D2B3] flex items-center justify-center text-white font-medium mr-3">
+      ${contact.initials || name.charAt(0).toUpperCase()}
+    </div>
+    <div class="flex-1">
+      <h3 class="font-medium text-white">${name}</h3>
+      <p class="text-sm text-gray-300">${status}</p>
+    </div>
+    <span class="text-xs text-gray-400">${lastSeen}</span>
+  `;
+
+  return element;
+}

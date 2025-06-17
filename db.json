@@ -111,6 +111,28 @@
       "phone": "6666778888",
       "status": "online",
       "lastSeen": "2025-06-16T18:33:38.740Z"
+    },
+    {
+      "id": "9947",
+      "name": "sems sy",
+      "phone": "1111111111",
+      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=sems",
+      "status": "online",
+      "lastSeen": "2025-06-16T18:41:31.011Z"
+    },
+    {
+      "id": "ba84",
+      "name": "kal faye",
+      "phone": "1111111111",
+      "status": "online",
+      "lastSeen": "2025-06-16T19:17:21.672Z"
+    },
+    {
+      "id": "e415",
+      "name": "sems pape",
+      "phone": "7811577730",
+      "status": "online",
+      "lastSeen": "2025-06-16T19:28:02.819Z"
     }
   ],
   "conversations": [
@@ -125,16 +147,7 @@
       "unreadCount": 2
     }
   ],
-  "messages": [
-    {
-      "id": "1",
-      "expediteurId": "123",
-      "destinataireId": "456",
-      "texte": "Hello",
-      "timestamp": "2025-06-16T08:00:00.000Z",
-      "status": "sent"
-    }
-  ],
+  "messages": [],
   "status": [
     {
       "id": "1",
@@ -383,6 +396,24 @@
       "itemId": "ac4f",
       "itemType": "contact",
       "archivedAt": "2025-06-16T18:24:36.312Z"
+    },
+    {
+      "id": "e877",
+      "itemId": "yoWojCp",
+      "itemType": "contact",
+      "archivedAt": "2025-06-16T18:42:36.981Z"
+    },
+    {
+      "id": "63aa",
+      "itemId": "Q5apHkK",
+      "itemType": "contact",
+      "archivedAt": "2025-06-16T18:42:38.363Z"
+    },
+    {
+      "id": "3588",
+      "itemId": "EtDoEuF",
+      "itemType": "contact",
+      "archivedAt": "2025-06-16T19:07:41.714Z"
     }
   ],
   "contacts": [

@@ -37,6 +37,25 @@ export class MessageSyncService {
     }
   }
 
+  formatDate(timestamp) {
+    if (!timestamp) return new Date().toISOString();
+    try {
+      return new Date(timestamp).toISOString();
+    } catch (error) {
+      return new Date().toISOString();
+    }
+  }
+
+  async envoyerMessage(message) {
+    const messageData = {
+      ...message,
+      timestamp: this.formatDate(message.timestamp),
+      status: message.status || "sent",
+    };
+
+    // ...rest of sending logic...
+  }
+
   async syncAllChats() {
     const currentUser = JSON.parse(localStorage.getItem("whatsappUser"));
     if (!currentUser) return;
