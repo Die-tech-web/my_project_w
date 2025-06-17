@@ -41,6 +41,7 @@ export function creerInterface() {
   whiteContainer.appendChild(mainContent);
 
   container.appendChild(whiteContainer);
+
   return container;
 }
 

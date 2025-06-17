@@ -10,6 +10,7 @@ import { showNotification } from "../components/notifications.js";
 import { deleteContact } from "../services/deleteService.js";
 import { archiveService } from "../services/archiveService.js";
 import { createArchivedContactsList } from "../components/archivedContactsList.js";
+import { createSearchBar } from "../components/searchUI.js";
 
 let discussionsContainer = null;
 

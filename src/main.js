@@ -6,6 +6,7 @@ import { createElement } from "./utils.js";
 import { creerInterface } from "./interface.js";
 import { createLoginForm } from "./login.js";
 import { creerSectionDiffusion } from "./sections/diffusion.js";
+import { updateGroupsList } from "./components/groupsList.js";
 
 window.createElement = createElement;
 
@@ -37,6 +38,10 @@ function init() {
 
   if (user) {
     app.appendChild(creerInterface());
+
+    // Initialiser les services
+    window.updateGroupsList();
+    window.updateContactsList();
   } else {
     app.appendChild(createLoginForm());
   }
@@ -44,8 +49,14 @@ function init() {
   const diffusionSection = creerSectionDiffusion();
 }
 
+// Initialisation au chargement de la page
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", init);
 } else {
   init();
 }
+
+// Ajouter les écouteurs d'événements globaux
+document.addEventListener("groupCreated", () => {
+  window.updateGroupsList();
+});

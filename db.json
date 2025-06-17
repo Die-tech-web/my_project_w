@@ -1,7 +1,5 @@
 {
   "users": [
-   
-    
     {
       "id": "ba84",
       "name": "kal faye",
@@ -10,11 +8,67 @@
       "lastSeen": "2025-06-16T19:17:21.672Z"
     },
     {
-      "id": "e415",
-      "name": "sems pape",
-      "phone": "7811577730",
+      "id": "1dfe",
+      "name": "zafe fall",
+      "phone": "7777666777",
       "status": "online",
-      "lastSeen": "2025-06-16T19:28:02.819Z"
+      "lastSeen": "2025-06-17T08:23:47.302Z"
+    },
+    {
+      "id": "0ad4",
+      "name": "astou mbow",
+      "phone": "7711111111",
+      "status": "online",
+      "lastSeen": "2025-06-17T08:35:13.851Z"
+    },
+    {
+      "id": "2703",
+      "name": "daisa luise",
+      "phone": "7766677778",
+      "status": "online",
+      "lastSeen": "2025-06-17T08:45:54.494Z"
+    },
+    {
+      "id": "3311",
+      "name": "x x",
+      "phone": "2222222222",
+      "status": "online",
+      "lastSeen": "2025-06-17T08:52:32.988Z"
+    },
+    {
+      "id": "11b1",
+      "name": "ami faye",
+      "phone": "7777788990",
+      "status": "online",
+      "lastSeen": "2025-06-17T09:20:15.137Z"
+    },
+    {
+      "id": "acbc",
+      "name": "mame  ndiaye",
+      "phone": "7766688990",
+      "status": "online",
+      "lastSeen": "2025-06-17T09:52:47.113Z"
+    },
+    {
+      "id": "8013",
+      "name": "mrs gueye",
+      "phone": "7712345678",
+      "status": "online",
+      "lastSeen": "2025-06-17T10:26:36.407Z"
+    },
+    {
+      "id": "5760",
+      "name": "mom by",
+      "phone": "1234567890",
+      "status": "online",
+      "lastSeen": "2025-06-17T10:26:58.712Z"
+    },
+    {
+      "id": "2e24",
+      "name": "as diop",
+      "phone": "1234567899",
+      "status": "online",
+      "lastSeen": "2025-06-17T19:51:57.190Z"
     }
   ],
   "conversations": [
@@ -43,38 +97,6 @@
   ],
   "groups": [
     {
-      "id": "18de",
-      "name": "dev web",
-      "members": [
-        "1",
-        "2",
-        "51e8"
-      ],
-      "createdAt": "2025-06-08T18:21:08.029Z",
-      "admin": "51e8"
-    },
-    {
-      "id": "0283",
-      "name": "dev wqqq",
-      "members": [
-        "51e8",
-        "1"
-      ],
-      "admin": "51e8",
-      "createdAt": "2025-06-09T11:39:44.291Z"
-    },
-    {
-      "id": "bcf7",
-      "name": "dev web",
-      "members": [
-        "d7e3",
-        1
-      ],
-      "admin": "d7e3",
-      "createdAt": "2025-06-11T20:03:03.484Z",
-      "createdBy": "astou diop 2"
-    },
-    {
       "id": "bb1c",
       "name": "dev web",
       "members": [
@@ -84,27 +106,6 @@
       "admin": "d9ad",
       "createdAt": "2025-06-11T23:55:01.438Z",
       "createdBy": "astou  wade"
-    },
-    {
-      "id": "4bfb",
-      "name": "www",
-      "members": [
-        "9751",
-        1
-      ],
-      "admin": "9751",
-      "createdAt": "2025-06-12T00:16:25.280Z",
-      "createdBy": "Maman Niang 3"
-    },
-    {
-      "id": "6de6",
-      "name": "lllll",
-      "members": [
-        "8cd2",
-        "7be3"
-      ],
-      "admin": "8cd2",
-      "createdAt": "2025-06-13T10:21:38.684Z"
     },
     {
       "id": "d810",
@@ -118,26 +119,14 @@
       "createdAt": "2025-06-14T12:31:41.475Z"
     },
     {
-      "id": "158b",
-      "name": "amy",
+      "id": "57bd",
+      "name": "zzz",
       "members": [
-        "e832",
-        "7be3",
-        "b8ce"
+        "3311",
+        "ba84"
       ],
-      "admin": "e832",
-      "createdAt": "2025-06-16T11:18:03.328Z"
-    },
-    {
-      "id": "794b",
-      "name": "bb",
-      "members": [
-        "e832",
-        "7be3",
-        "b8ce"
-      ],
-      "admin": "e832",
-      "createdAt": "2025-06-16T11:18:41.649Z"
+      "admin": "3311",
+      "createdAt": "2025-06-17T09:08:27.990Z"
     }
   ],
   "archives": [
@@ -296,6 +285,18 @@
       "itemId": "EtDoEuF",
       "itemType": "contact",
       "archivedAt": "2025-06-16T19:07:41.714Z"
+    },
+    {
+      "id": "42a1",
+      "itemId": "mxnpfQ_",
+      "itemType": "contact",
+      "archivedAt": "2025-06-17T08:27:34.841Z"
+    },
+    {
+      "id": "0785",
+      "itemId": "70i3mgX",
+      "itemType": "contact",
+      "archivedAt": "2025-06-17T09:52:56.453Z"
     }
   ],
   "contacts": [

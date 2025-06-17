@@ -114,8 +114,13 @@ class ListUpdateService {
       }
       const groups = await response.json();
 
+      // Notifier tous les observateurs
       this.notify("groups", groups);
       this.notify("discussion-groups", groups);
+
+      // Mettre à jour directement l'affichage
+      this.renderDiscussionGroups(groups);
+      this.renderGroupsList(groups);
 
       return groups;
     } catch (error) {
