@@ -10,6 +10,7 @@
     "server": "json-server --watch db.json --port 3000"
   },
   "devDependencies": {
+    "@vitejs/plugin-legacy": "^6.1.1",
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.4",
     "tailwindcss": "^3.4.17",
